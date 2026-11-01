@@ -1,0 +1,70 @@
+name: Validate Skills Library
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+          cache: npm
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements/standard-validation.txt
+          npm ci
+      - name: Count skills
+        run: |
+          FOUND=$(find skills/ -name "SKILL.md" | wc -l | tr -d ' ')
+          EXPECTED=$(python3 -c "import json; print(json.load(open('registry.json'))['total_skills'])")
+          echo "Skills found: $FOUND (registry expects: $EXPECTED)"
+          [ "$FOUND" -eq "$EXPECTED" ] || (echo "Skill count mismatch: filesystem has $FOUND, registry has $EXPECTED — run: python3 scripts/generate-registry.py" && exit 1)
+      - name: Validate YAML frontmatter
+        run: python3 scripts/validate-skills.py
+      - name: Test portable export roundtrip and safety
+        run: python -m unittest discover -s tests -p test_standard_export.py -q
+      - name: Export and validate portable profile (pinned official reference)
+        run: |
+          python scripts/export-standard-skills.py
+          python scripts/validate-standard-skills.py
+      - name: Validate registry.json
+        run: python3 scripts/validate-registry.py
+      - name: Check registry is in sync
+        run: |
+          python3 scripts/generate-registry.py
+          git diff --ignore-matching-lines='"generated"' --exit-code registry.json || (echo "registry.json is out of sync — run scripts/generate-registry.py" && exit 1)
+      - name: Run skills library tests
+        run: npm test
+      - name: Audit root dependencies
+        run: npm audit --audit-level=high
+
+  bundle-sync:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '20'
+      - name: Install mcp-server dependencies
+        working-directory: mcp-server
+        run: npm ci
+      - name: Rebuild skills bundle
+        working-directory: mcp-server
+        run: npm run bundle-skills
+      - name: Check bundle is in sync
+        run: |
+          git diff --exit-code mcp-server/src/skills.json || (echo "mcp-server/src/skills.json is out of sync — run: cd mcp-server && npm run bundle-skills" && exit 1)
+      - name: Build and test MCP server
+        working-directory: mcp-server
+        run: |
+          npm run build
+          npm test
+      - name: Audit MCP dependencies
+        working-directory: mcp-server
+        run: npm audit --audit-level=high

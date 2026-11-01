@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+build/
+dist/
+# Generated client discovery links; created only for selected clients.
+/.agents/skills/
+/.claude/skills/
+
+# Held back from the public package: third-party material whose redistribution is not verified.
+# Kept on disk only; never listed in skills/manifest.json. See docs/skill-redistribution-review.md.
+/local-only/
