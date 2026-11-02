@@ -61,7 +61,7 @@ class InvestingOSTests(unittest.TestCase):
 
     def test_shared_skill(self):
         root = Path(__file__).resolve().parents[1]
-        source = (root / "skills/InvestingOS/SKILL.md").resolve()
+        source = (root / "skills/investingos/SKILL.md").resolve()
         self.assertTrue(source.read_text().startswith("---\nname: InvestingOS\n"))
 
 

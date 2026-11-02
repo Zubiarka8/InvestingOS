@@ -283,7 +283,7 @@ The check reports Python and optional executables found on PATH; it does not ver
 
 ## Skills and documentation
 
-The engine is AI-provider independent. See [AI client compatibility](ai-clients.md) for Codex, Claude Code, Cursor, OpenCode, Gemini CLI, Copilot, Windsurf, and hosted assistants. All bundled skill sources live in `skills/`; the chosen client discovery directory links to those shared files. The project includes an [InvestingOS skill](../skills/InvestingOS/SKILL.md) for supported Codex and Claude Code setups. See the [skills index](../skills/INDEX.md) for other available skills and their requirements. Some third-party skills need additional tools. To add one, ask your agent: “Install the skill at this URL in this project for Codex and Claude Code.” For a collection, say “Install all skills in this pack” and provide its URL. See [skill management](skills-management.md) for inspection, selection, attribution, updates, and verification.
+The engine is AI-provider independent. See [AI client compatibility](ai-clients.md) for Codex, Claude Code, Cursor, OpenCode, Gemini CLI, Copilot, Windsurf, and hosted assistants. All bundled skill sources live in `skills/`; the chosen client discovery directory links to those shared files. The project includes an [InvestingOS skill](../skills/investingos/SKILL.md) for supported Codex and Claude Code setups. See the [skills index](../skills/INDEX.md) for other available skills and their requirements. Some third-party skills need additional tools. To add one, ask your agent: “Install the skill at this URL in this project for Codex and Claude Code.” For a collection, say “Install all skills in this pack” and provide its URL. See [skill management](skills-management.md) for inspection, selection, attribution, updates, and verification.
 
 ### What the InvestingOS skill manages
 
@@ -296,7 +296,7 @@ The `InvestingOS` skill guides a compatible AI assistant through the project wor
 - Use the local viewer, preview the current page for Word or PDF, and export or update Obsidian-compatible Markdown. PDF saving uses the browser print dialog.
 - Inspect project history, compare snapshots, check available tools and prepare backups or restores.
 
-The assistant should follow the permissions and limitations of each operation. The skill is a set of instructions, not a service that automatically researches, verifies sources or installs dependencies. Full instructions are in [the skill](../skills/InvestingOS/SKILL.md) and its [operations](../skills/InvestingOS/references/project-operations.md) and [source management](../skills/InvestingOS/references/source-management.md) guides.
+The assistant should follow the permissions and limitations of each operation. The skill is a set of instructions, not a service that automatically researches, verifies sources or installs dependencies. Full instructions are in [the skill](../skills/investingos/SKILL.md) and its [operations](../skills/investingos/references/project-operations.md) and [source management](../skills/investingos/references/source-management.md) guides.
 
 For local research, YouTube downloads, Humanizer, and optional Obsidian MCP setup, see [research tools](research-tools.md). These integrations have separate requirements and are not installed automatically.
 
@@ -308,8 +308,8 @@ Project links point to local copies; installation does not install external depe
 
 | Skill or collection | Author or upstream | Installed version or revision | License and notes |
 | --- | --- | --- | --- |
-| InvestingOS | InvestingOS contributors | Project version 0.1.0; skill has no separate version | MIT; [skill](../skills/InvestingOS/SKILL.md). |
-| Education Agent Skills (165 skills) | [Gareth Manning and contributors](https://github.com/GarethManning/education-agent-skills) | Commit `135d6275e7db0657d70b147f46d3191c5430677d` | CC BY-SA 4.0, shared alike; unmodified skills, with the code that is not clearly licensed removed. See the [notice](../skills/collections/education-agent-skills-main/NOTICE-InvestingOS.md) and its LICENSE. |
+| InvestingOS | InvestingOS contributors | Project version 0.1.0; skill has no separate version | MIT; [skill](../skills/investingos/SKILL.md). |
+| Education Agent Skills (165 skills) | [Gareth Manning and contributors](https://github.com/GarethManning/education-agent-skills) | Commit `135d6275e7db0657d70b147f46d3191c5430677d` | CC BY-SA 4.0, shared alike; unmodified skills, with the code that is not clearly licensed removed. See the [notice](../skills/collections/education-agent-skills-main/NOTICE-INVESTINGOS.md) and its LICENSE. |
 | Course Builder | [klausners and contributors](https://github.com/klausners/course-builder) | Based on commit `09bdafb5f723db71238481d1b157a564a94d131f`; locally modified transcript helper | MIT; companion agents are required and client compatibility is not verified. |
 | Obsidian Skills (6 skills) | [kepano and contributors](https://github.com/kepano/obsidian-skills) | Commit `3ccff5338ea700537839b21900aa5358a0402c98` | MIT; individual skills may require external tools. |
 | Scrapling skill | [Karim Shoair / Scrapling](https://github.com/D4Vinci/Scrapling) | Commit `95cf9019ab5a5d6f3e9654b7ef1c6a26e29dc5c0` | BSD-3-Clause; notice included. Optional dependencies. |

@@ -629,7 +629,7 @@ class WiringTests(unittest.TestCase):
     def test_every_registered_source_is_documented(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
         guide = (ROOT / 'docs/research-tools.md').read_text(encoding='utf-8')
-        skill = (ROOT / 'skills/InvestingOS/SKILL.md').read_text(encoding='utf-8')
+        skill = (ROOT / 'skills/investingos/SKILL.md').read_text(encoding='utf-8')
         for key, item in o.SOURCES.items():
             self.assertTrue(f'search-source {key}' in guide, f'guide misses the command for {key}')
             self.assertTrue(item['name'] in guide, f'guide misses the name {item["name"]}')
@@ -639,7 +639,7 @@ class WiringTests(unittest.TestCase):
         self.assertTrue('search-source' in readme, 'README misses search-source')
 
     def test_professional_notice_is_general_everywhere(self):
-        for path in ('README.md', 'docs/user-guide.md', 'skills/InvestingOS/SKILL.md'):
+        for path in ('README.md', 'docs/user-guide.md', 'skills/investingos/SKILL.md'):
             text = (ROOT / path).read_text(encoding='utf-8')
             self.assertTrue('qualified professional of any kind' in text, f'{path} misses the general statement')
             self.assertTrue('whether or not' in text and 'named here' in text, f'{path} limits itself to listed professionals')

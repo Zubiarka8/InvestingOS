@@ -40,7 +40,7 @@ The groups below organize skills by purpose; each link points to the authoritati
 
 | Need | Skill | When and why | Requirements or limits |
 | --- | --- | --- | --- |
-| Structure knowledge | [InvestingOS](InvestingOS/SKILL.md) | Create learner profiles, alternate hierarchies, concept networks, source-linked study notes, and numbered Obsidian indexes. | The engine does not automatically research or verify claims; Obsidian export is one-way. |
+| Structure knowledge | [InvestingOS](investingos/SKILL.md) | Create learner profiles, alternate hierarchies, concept networks, source-linked study notes, and numbered Obsidian indexes. | The engine does not automatically research or verify claims; Obsidian export is one-way. |
 | Polish generated text | [humanizer](humanizer/SKILL.md) | Improve naturalness when requested while preserving meaning, sources, and nuance. | Editing does not verify claims. |
 | Edit existing text | [copy-editing](copy-editing/SKILL.md) | Improve the clarity of existing copy. | It does not replace research or technical review. |
 | Consult technical documentation | [context7-mcp](context7-mcp/SKILL.md) | Find current library and API documentation. | Requires the Context7 MCP tools. |
@@ -81,7 +81,7 @@ Choose the skill that matches the task. None makes Obsidian a dependency of the 
 
 ## Education Agent Skills
 
-Skill names and descriptions in this section are reproduced from the metadata of [Education Agent Skills](collections/education-agent-skills-main/README.md) by Gareth Manning and contributors, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) and shared here under the same license. See the [attribution and modification notice](collections/education-agent-skills-main/NOTICE-InvestingOS.md).
+Skill names and descriptions in this section are reproduced from the metadata of [Education Agent Skills](collections/education-agent-skills-main/README.md) by Gareth Manning and contributors, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) and shared here under the same license. See the [attribution and modification notice](collections/education-agent-skills-main/NOTICE-INVESTINGOS.md).
 
 Choose a category, then the skill that matches the task. These are third-party educational resources, not features built into the InvestingOS engine. Review each skill, its sources, and its license before use.
 

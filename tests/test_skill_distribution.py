@@ -48,7 +48,7 @@ class ManifestTests(unittest.TestCase):
 class EducationScopeTests(unittest.TestCase):
     def test_license_and_modification_notice_are_present(self):
         self.assertIn("Attribution-ShareAlike 4.0", (EDU / "LICENSE").read_text(encoding="utf-8"))
-        notice = (EDU / "NOTICE-InvestingOS.md").read_text(encoding="utf-8")
+        notice = (EDU / "NOTICE-INVESTINGOS.md").read_text(encoding="utf-8")
         for needle in ("Gareth Manning", "135d6275e7db0657d70b147f46d3191c5430677d",
                        "creativecommons.org/licenses/by-sa/4.0", "removed"):
             self.assertIn(needle, notice)

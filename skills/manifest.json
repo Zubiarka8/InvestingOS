@@ -176,7 +176,7 @@
   "wellbeing-learning-connection-mapper": "skills/collections/education-agent-skills-main/skills/wellbeing-motivation-agency/wellbeing-learning-connection-mapper",
   "worked-example-fading-designer": "skills/collections/education-agent-skills-main/skills/memory-learning-science/worked-example-fading-designer",
   "worked-example-to-problem-solving-transition-designer": "skills/collections/education-agent-skills-main/skills/ai-learning-science/worked-example-to-problem-solving-transition-designer",
-  "InvestingOS": "skills/InvestingOS",
+  "InvestingOS": "skills/investingos",
   "contract-writer": "skills/collections/closer-skill/contract-writer",
   "follow-up": "skills/collections/closer-skill/follow-up",
   "forecaster": "skills/collections/closer-skill/forecaster",

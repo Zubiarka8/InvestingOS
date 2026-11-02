@@ -10,7 +10,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from investingos.core import CLAIM_STATUSES, SOURCE_LIBRARY_STATUSES, add_claim, add_node, add_source, create_project
 from investingos.export import export
 
-DIR = ROOT / "skills/InvestingOS/templates"
+DIR = ROOT / "skills/investingos/templates"
 README = (DIR / "README.md").read_text(encoding="utf-8")
 EXPECTED_KEYS = {
     "project-home": {"type", "project_id", "project_title", "status"},

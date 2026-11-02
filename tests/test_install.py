@@ -76,5 +76,5 @@ class SkillSelectionTests(unittest.TestCase):
                 manifest[name] = f'skills/{name}'
             (root / 'skills/manifest.json').write_text(json.dumps(manifest))
             installer.install(root, clients=('shared',), names=('InvestingOS',))
-            self.assertTrue((root / '.agents/skills/InvestingOS').is_symlink())
+            self.assertTrue((root / '.agents/skills/investingos').is_symlink())
             self.assertFalse((root / '.agents/skills/other').exists())
