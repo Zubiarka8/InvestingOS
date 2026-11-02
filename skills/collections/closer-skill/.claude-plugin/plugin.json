@@ -1,0 +1,21 @@
+{
+  "name": "closer-skill",
+  "description": "11 Claude skills that run your whole sales team: find leads, cold outreach, follow-ups, call coaching and contracts. Free.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jake Schincariol",
+    "url": "https://opusjake.ai"
+  },
+  "homepage": "https://github.com/Jakeschincariol/closer-skill",
+  "repository": "https://github.com/Jakeschincariol/closer-skill",
+  "license": "MIT",
+  "skills": "./",
+  "keywords": [
+    "claude",
+    "claude-skills",
+    "sales",
+    "crm",
+    "cold-email",
+    "sales-coaching"
+  ]
+}

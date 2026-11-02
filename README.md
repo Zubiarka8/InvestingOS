@@ -75,7 +75,7 @@ InvestingOS organizes knowledge and finds sources. It does not replace a qualifi
 
 ## AI skills
 
-The main `InvestingOS` skill guides a compatible AI assistant through the project. The repository also contains a catalog of 178 skills, including Humanizer and educational collections. Browse the [skills index](skills/INDEX.md) to see their purposes and groups.
+The main `InvestingOS` skill guides a compatible AI assistant through the project. The repository also contains a catalog of 189 skills, including Humanizer and educational collections. Browse the [skills index](skills/INDEX.md) to see their purposes and groups.
 
 The default installer activates only the main skill. To make the full catalog available in the shared discovery folder, run:
 
@@ -93,6 +93,7 @@ Project links point to local copies; installation does not install external depe
 | --- | --- | --- | --- |
 | InvestingOS | InvestingOS contributors | Project version 0.1.0; skill has no separate version | MIT; [skill](skills/InvestingOS/SKILL.md). |
 | Education Agent Skills (165 skills) | [Gareth Manning and contributors](https://github.com/GarethManning/education-agent-skills) | Commit `135d6275e7db0657d70b147f46d3191c5430677d` | CC BY-SA 4.0, shared alike; unmodified skills, with the code that is not clearly licensed removed. See the [notice](skills/collections/education-agent-skills-main/NOTICE-InvestingOS.md) and its LICENSE. |
+| Closer (11 skills) | [Jake Schincariol](https://github.com/Jakeschincariol/closer-skill) | Commit `0b0107690e202010710a59eb7d0b47d331255e59` | MIT; [license](skills/collections/closer-skill/LICENSE) included. Claude-oriented integrations and scripts are unverified. |
 | Course Builder | [klausners and contributors](https://github.com/klausners/course-builder) | Based on commit `09bdafb5f723db71238481d1b157a564a94d131f`; locally modified transcript helper | MIT; companion agents are required and client compatibility is not verified. |
 | Obsidian Skills (6 skills) | [kepano and contributors](https://github.com/kepano/obsidian-skills) | Commit `3ccff5338ea700537839b21900aa5358a0402c98` | MIT; individual skills may require external tools. |
 | Scrapling skill | [Karim Shoair / Scrapling](https://github.com/D4Vinci/Scrapling) | Commit `95cf9019ab5a5d6f3e9654b7ef1c6a26e29dc5c0` | BSD-3-Clause; notice included. Optional dependencies. |

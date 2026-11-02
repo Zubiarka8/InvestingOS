@@ -317,7 +317,10 @@ def main():
                 output = sources.imf(args.country, args.indicator, args.limit)
             else:
                 output = sources.worldbank(args.country, args.indicator, args.limit)
-            print(json.dumps(output, ensure_ascii=False, indent=2))
+            if args.command == "list-sources":
+                print(json.dumps(output, ensure_ascii=False, indent=2))
+            else:
+                print(json.dumps(output, ensure_ascii=False, indent=2))
             return
         if args.command == "lookup-ora":
             import json

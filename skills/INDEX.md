@@ -16,6 +16,7 @@ For authors, versions, and license information, see [skill credits](../README.md
 | --- | ---: | --- |
 | [Education Agent Skills](collections/education-agent-skills-main/README.md) | 165 | Educational design and analysis. Browse the categories below. |
 | [Course Builder](collections/course-builder-main/README.md) | 1 | Course design; requires companion agents and client compatibility has not been verified. |
+| [Closer](collections/closer-skill/README.md) | 11 | Sales pipeline, outreach, proposals and coaching; Claude-oriented integrations and scripts are unverified. |
 | [Obsidian Skills](collections/obsidian-skills-main/README.md) | 6 | Obsidian notes, formats, and related tools; some skills require external tools. |
 
 ## Candidates not bundled
@@ -33,6 +34,7 @@ The groups below organize skills by purpose; each link points to the authoritati
 | Knowledge architecture | InvestingOS | Create and expand universal study structures, learner profiles, source-linked notes, and Obsidian exports. |
 | Research and troubleshooting | context7-mcp, scrapling-official, investigate-first | Consult technical sources, extract web content, or diagnose failures. |
 | Writing and review | humanizer, copy-editing | Improve or review prose. |
+| Sales workflows | Closer | Manage sales activities and draft outreach. |
 | Course design | course, Education Agent Skills | Design curricula, learning activities, and assessments. |
 | Obsidian and formats | obsidian-markdown, obsidian-bases, json-canvas, obsidian-cli, defuddle, knap | Organize notes and work with related formats and tools. |
 
@@ -45,6 +47,24 @@ The groups below organize skills by purpose; each link points to the authoritati
 | Investigate a failure | [investigate-first](investigate-first/SKILL.md) | Identify the cause of an ambiguous failure before editing. | Changes require task authorization. |
 | Extract web content | [scrapling-official](scrapling-official/SKILL.md) | Extract web content using Scrapling when authorized. | BSD-3-Clause; Python 3.10+ and optional third-party dependencies; browser modes require explicit authorization. |
 | Design a research-driven course | [course](collections/course-builder-main/skills/course/SKILL.md) | Propose courses using sources when requested. | Designed for Claude and requires companion agents; operation in both clients is unverified. |
+
+## Sales workflows: Closer
+
+These skills share the adjacent `pipeline` tools. They reference Claude-specific paths and optional Gmail, Calendar, and Chrome integrations; client discovery and functionality have not been tested. Scripts are included but were not run. Use of external services requires authorization.
+
+| Skill | Use |
+| --- | --- |
+| [contract-writer](collections/closer-skill/contract-writer/SKILL.md) | Draft service agreements and PDFs. |
+| [follow-up](collections/closer-skill/follow-up/SKILL.md) | Plan and draft follow-ups. |
+| [forecaster](collections/closer-skill/forecaster/SKILL.md) | Forecast deal outcomes and pipeline health. |
+| [pipeline](collections/closer-skill/pipeline/SKILL.md) | Maintain a sales pipeline and deal records. |
+| [proposal-writer](collections/closer-skill/proposal-writer/SKILL.md) | Draft priced proposals. |
+| [prospector](collections/closer-skill/prospector/SKILL.md) | Research prospects and draft outreach. |
+| [record-keeper](collections/closer-skill/record-keeper/SKILL.md) | Log contact correspondence and calls. |
+| [researcher](collections/closer-skill/researcher/SKILL.md) | Prepare prospect research briefs. |
+| [sales-coach](collections/closer-skill/sales-coach/SKILL.md) | Coach and review sales calls. |
+| [scheduler](collections/closer-skill/scheduler/SKILL.md) | Parse availability and prepare meeting invitations. |
+| [win-back](collections/closer-skill/win-back/SKILL.md) | Identify and draft outreach for dormant deals. |
 
 ## Obsidian and related formats
 

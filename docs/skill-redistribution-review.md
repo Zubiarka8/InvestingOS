@@ -1,17 +1,17 @@
 # Skill redistribution review
 
-Reviewed on 2026-11-01. This is a documentation review, not a legal opinion. The per-skill inventory below covers all 178 manifest entries individually. The last column is the first 12 characters of the local `SKILL.md` SHA-256, allowing a later comparison. It does not cover supporting files.
+Reviewed on 2026-11-01; Closer added on 2026-11-02. This is a documentation review, not a legal opinion. The per-skill inventory below covers all 189 manifest entries individually. The last column is the first 12 characters of the local `SKILL.md` SHA-256, allowing a later comparison. It does not cover supporting files.
 
 ## Result
 
-- **Published (178 skills):** the source revision, license text, copyright holder and local changes are recorded below for each.
+- **Published (189 skills):** the source revision, license text, copyright holder and local changes are recorded below for each.
 - **Held back (2 skills):** VaultForge and `writing-guidelines`. Their licenses could not be verified, so they are not in the public package or the manifest.
 - **Narrowed (Education Agent Skills):** all 165 skills and their resources stay; the code and generated files that the license notice does not clearly cover were removed from the public copy.
 - Nothing was deleted. Held-back files are in the git-ignored `local-only/` directory, and a full archive of the project before this work is outside the repository (`../backups/`). Nothing was pushed or published.
 
 ## Method
 
-For each source, the GitHub Git Trees API was used to compare every local file's Git blob hash with the same path at the pinned commit. License texts were read in the upstream tree at that commit. Matching a revision proves provenance, not the right to redistribute. The conclusions below rest on the license files and notices found at that commit.
+For the original inventory, the GitHub Git Trees API was used to compare every local file's Git blob hash with the same path at the pinned commit. License texts were read in the upstream tree at that commit. Closer was copied from the commit-pinned GitHub archive and compared byte for byte with that archive; its scripts were not executed. Matching a revision proves provenance, not the right to redistribute. The conclusions below rest on the license files and notices found at that commit.
 
 ## Held back from the public package
 
@@ -40,6 +40,7 @@ The 165 skills do not reference any held-back file (checked by searching their t
 
 | Material | Source and revision | License and copyright holder | Notices kept in this repository | Local changes |
 | --- | --- | --- | --- | --- |
+| Closer (11 skills) | [Jakeschincariol/closer-skill](https://github.com/Jakeschincariol/closer-skill), `0b0107690e202010710a59eb7d0b47d331255e59` | MIT, Copyright (c) 2026 Jake Schincariol | Upstream `LICENSE` | Complete upstream archive retained unmodified; scripts and integrations not executed or functionally reviewed. |
 | Course Builder (1 skill) | [klausners/course-builder](https://github.com/klausners/course-builder), `09bdafb` | MIT, Copyright (c) 2026 Klaus Heringer | Upstream `LICENSE` (identical) | `CONTRIBUTING.md`, `agents/course-builder.md` and `agents/source-reader.md` were edited. The upstream `scripts/youtube-transcript.sh` was replaced by `scripts/youtube_transcript.py`, written for this project. The other 10 files match. Compiled `.pyc` caches are present locally and git-ignored. |
 | Obsidian Skills (6 skills) | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills), `3ccff53` | MIT, Copyright (c) 2026 Steph Ango (@kepano) | Upstream `LICENSE` (identical) | None: 15 of 15 files match. |
 | Scrapling skill | [D4Vinci/Scrapling](https://github.com/D4Vinci/Scrapling), `95cf901`, path `agent-skill/Scrapling-Skill/` | BSD-3-Clause, Copyright (c) 2024, Karim shoair | `LICENSE.txt` from that directory (identical); the skill's frontmatter points to it. | None: 25 of 25 files match, including the example scripts. |
@@ -55,6 +56,17 @@ Limits: the licenses of the source repositories were read at the pinned commits,
 
 | Skill (local) | Collection / origin | License evidence | Review | Direct upstream path | Local SHA-256 prefix |
 | --- | --- | --- | --- | --- | --- |
+| [contract-writer](../skills/collections/closer-skill/contract-writer/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/contract-writer/SKILL.md) | `667f3a21d3d5` |
+| [follow-up](../skills/collections/closer-skill/follow-up/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/follow-up/SKILL.md) | `1d93b1420c87` |
+| [forecaster](../skills/collections/closer-skill/forecaster/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/forecaster/SKILL.md) | `dc973b3f25a5` |
+| [pipeline](../skills/collections/closer-skill/pipeline/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/pipeline/SKILL.md) | `eb0164751538` |
+| [proposal-writer](../skills/collections/closer-skill/proposal-writer/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/proposal-writer/SKILL.md) | `f83aa7c08964` |
+| [prospector](../skills/collections/closer-skill/prospector/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/prospector/SKILL.md) | `bfe06ded8a3c` |
+| [record-keeper](../skills/collections/closer-skill/record-keeper/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/record-keeper/SKILL.md) | `5904dcc05cf3` |
+| [researcher](../skills/collections/closer-skill/researcher/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/researcher/SKILL.md) | `013c761ecae6` |
+| [sales-coach](../skills/collections/closer-skill/sales-coach/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/sales-coach/SKILL.md) | `e0fc1662e3ff` |
+| [scheduler](../skills/collections/closer-skill/scheduler/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/scheduler/SKILL.md) | `e4150a2c082c` |
+| [win-back](../skills/collections/closer-skill/win-back/SKILL.md) | Closer | MIT; notice included | Unmodified archive; scripts not executed | [Source](https://github.com/Jakeschincariol/closer-skill/blob/0b0107690e202010710a59eb7d0b47d331255e59/win-back/SKILL.md) | `fc5370dfb2a0` |
 | [academic-language-sentence-frame-generator](../skills/collections/education-agent-skills-main/skills/eal-language-development/academic-language-sentence-frame-generator/SKILL.md) | Education Agent Skills | CC BY-SA 4.0; notice included | Exact upstream match; CC BY-SA conditions apply | [Source](https://github.com/GarethManning/education-agent-skills/blob/135d6275e7db0657d70b147f46d3191c5430677d/skills/eal-language-development/academic-language-sentence-frame-generator/SKILL.md) | `152ee91b124a` |
 | [adaptive-hint-sequence-designer](../skills/collections/education-agent-skills-main/skills/ai-learning-science/adaptive-hint-sequence-designer/SKILL.md) | Education Agent Skills | CC BY-SA 4.0; notice included | Exact upstream match; CC BY-SA conditions apply | [Source](https://github.com/GarethManning/education-agent-skills/blob/135d6275e7db0657d70b147f46d3191c5430677d/skills/ai-learning-science/adaptive-hint-sequence-designer/SKILL.md) | `4f59e3a5e681` |
 | [agency-circles-for-systems-action](../skills/collections/education-agent-skills-main/skills/systems-thinking/agency-circles-for-systems-action/SKILL.md) | Education Agent Skills | CC BY-SA 4.0; notice included | Exact upstream match; CC BY-SA conditions apply | [Source](https://github.com/GarethManning/education-agent-skills/blob/135d6275e7db0657d70b147f46d3191c5430677d/skills/systems-thinking/agency-circles-for-systems-action/SKILL.md) | `96cf12fc8f23` |

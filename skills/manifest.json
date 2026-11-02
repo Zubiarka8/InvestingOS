@@ -176,5 +176,16 @@
   "wellbeing-learning-connection-mapper": "skills/collections/education-agent-skills-main/skills/wellbeing-motivation-agency/wellbeing-learning-connection-mapper",
   "worked-example-fading-designer": "skills/collections/education-agent-skills-main/skills/memory-learning-science/worked-example-fading-designer",
   "worked-example-to-problem-solving-transition-designer": "skills/collections/education-agent-skills-main/skills/ai-learning-science/worked-example-to-problem-solving-transition-designer",
-  "InvestingOS": "skills/InvestingOS"
+  "InvestingOS": "skills/InvestingOS",
+  "contract-writer": "skills/collections/closer-skill/contract-writer",
+  "follow-up": "skills/collections/closer-skill/follow-up",
+  "forecaster": "skills/collections/closer-skill/forecaster",
+  "pipeline": "skills/collections/closer-skill/pipeline",
+  "proposal-writer": "skills/collections/closer-skill/proposal-writer",
+  "prospector": "skills/collections/closer-skill/prospector",
+  "record-keeper": "skills/collections/closer-skill/record-keeper",
+  "researcher": "skills/collections/closer-skill/researcher",
+  "sales-coach": "skills/collections/closer-skill/sales-coach",
+  "scheduler": "skills/collections/closer-skill/scheduler",
+  "win-back": "skills/collections/closer-skill/win-back"
 }

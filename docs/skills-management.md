@@ -39,6 +39,10 @@ For a manual installation:
 5. Add its purpose to [the index](../skills/INDEX.md), and its source, author, license, exact revision or declared version, and any limitations to the README. Mark unknown information explicitly.
 6. Confirm each requested link resolves to the intended `SKILL.md`. Restart the selected client and check discovery when possible. Report separately whether filesystem links and actual client discovery were tested.
 
+## Closer collection
+
+[Closer](../skills/collections/closer-skill/README.md) by Jake Schincariol is retained at commit `0b0107690e202010710a59eb7d0b47d331255e59` with its [MIT license](../skills/collections/closer-skill/LICENSE). Its 11 skills share `pipeline/deals.py` and remain adjacent. Upstream states Python 3.8+ for its tools; this has not been verified here. Instructions reference `CLAUDE_SKILL_DIR` and optional Gmail, Calendar, and Chrome integrations; neither the tools nor client compatibility were tested. Scripts were not executed. Browser use and external actions still require user authorization. See the [redistribution review](skill-redistribution-review.md).
+
 ## Update or remove a skill
 
 For an update, review the new revision, license, dependencies, and changes before replacing the source. Preserve a backup, keep the directory name stable where possible, update credits and the index, and recheck the selected links. Do not claim a version without evidence tying the installed files to it.

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "closer-skill",
+  "description": "The Closer skill pack for Claude",
+  "owner": {
+    "name": "Jake Schincariol",
+    "url": "https://opusjake.ai"
+  },
+  "plugins": [
+    {
+      "name": "closer-skill",
+      "description": "Eleven Claude skills that run your sales team: a record keeper, a prospector, follow-ups until a call is booked, a live sales coach, a contract writer, a researcher, a scheduler, a pipeline board, proposals, win-backs and a forecaster.",
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/Jakeschincariol/closer-skill"
+    }
+  ]
+}
