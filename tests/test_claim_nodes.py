@@ -4,8 +4,8 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import add_claim, add_node, add_source, audit, create_project
-from InvestingOS.export import export
+from investingos.core import add_claim, add_node, add_source, audit, create_project
+from investingos.export import export
 
 
 class ClaimNodeTests(unittest.TestCase):

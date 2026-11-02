@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from InvestingOS.core import CLAIM_STATUSES, SOURCE_LIBRARY_STATUSES, add_claim, add_node, add_source, create_project
-from InvestingOS.export import export
+from investingos.core import CLAIM_STATUSES, SOURCE_LIBRARY_STATUSES, add_claim, add_node, add_source, create_project
+from investingos.export import export
 
 DIR = ROOT / "skills/InvestingOS/templates"
 README = (DIR / "README.md").read_text(encoding="utf-8")

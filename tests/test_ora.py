@@ -22,7 +22,7 @@ def reply(text):
 
 class OraTests(unittest.TestCase):
     def test_accepts_uuid_oai_identifier_and_ora_url_only(self):
-        from InvestingOS.ora import record_uuid
+        from investingos.ora import record_uuid
         for reference in (UUID, 'uuid:' + UUID, 'oai:ora.ox.ac.uk:uuid:' + UUID.upper(),
                           f'https://ora.ox.ac.uk/objects/uuid:{UUID}'):
             self.assertEqual(record_uuid(reference), UUID)
@@ -31,7 +31,7 @@ class OraTests(unittest.TestCase):
                 record_uuid(bad)
 
     def test_lookup_returns_unverified_metadata_and_public_url(self):
-        from InvestingOS.ora import lookup
+        from investingos.ora import lookup
         with patch('urllib.request.urlopen', return_value=reply(OAI)) as opened:
             result = lookup(UUID)
         self.assertIn('identifier=oai:ora.ox.ac.uk:uuid:' + UUID, opened.call_args[0][0].full_url)
@@ -43,7 +43,7 @@ class OraTests(unittest.TestCase):
         self.assertEqual(result['status'], 'unverified')
 
     def test_unknown_record_and_deleted_record_are_reported(self):
-        from InvestingOS.ora import lookup
+        from investingos.ora import lookup
         missing = '<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"><error code="idDoesNotExist">x</error></OAI-PMH>'
         with patch('urllib.request.urlopen', return_value=reply(missing)):
             with self.assertRaisesRegex(ValueError, 'no ORA record'):
@@ -54,7 +54,7 @@ class OraTests(unittest.TestCase):
                 lookup(UUID)
 
     def test_refuses_dtd_entities_oversize_and_bad_xml(self):
-        from InvestingOS import ora
+        from investingos import ora
         bomb = '<?xml version="1.0"?><!DOCTYPE x [<!ENTITY a "aaaa">]>' + OAI
         for body, message in ((bomb, 'DTD'), ('<not xml', 'not valid XML')):
             with patch('urllib.request.urlopen', return_value=reply(body)):
@@ -65,7 +65,7 @@ class OraTests(unittest.TestCase):
                 ora.lookup(UUID)
 
     def test_network_errors_become_value_errors(self):
-        from InvestingOS.ora import lookup
+        from investingos.ora import lookup
         with patch('urllib.request.urlopen', side_effect=error.HTTPError('u', 503, 'x', {}, None)):
             with self.assertRaisesRegex(ValueError, '503'):
                 lookup(UUID)

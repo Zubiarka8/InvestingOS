@@ -48,9 +48,9 @@ class ImportScriptTests(unittest.TestCase):
         from contextlib import redirect_stderr
         from unittest.mock import patch
         sys.path.insert(0, str(ROOT / 'src'))
-        from InvestingOS.cli import main
-        from InvestingOS.core import create_project
-        from InvestingOS.storage import save
+        from investingos.cli import main
+        from investingos.core import create_project
+        from investingos.storage import save
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project, source, dest = root / 'project.json', root / 'bad.xlsx', root / 'out.md'
@@ -58,7 +58,7 @@ class ImportScriptTests(unittest.TestCase):
             source.write_bytes(b'not an archive')
             stderr = io.StringIO()
             with patch('sys.argv', ['InvestingOS', 'import-markdown', str(project), str(source), str(dest)]), \
-                 patch('InvestingOS.markdown_import.convert', side_effect=zipfile.BadZipFile('invalid archive')), \
+                 patch('investingos.markdown_import.convert', side_effect=zipfile.BadZipFile('invalid archive')), \
                  redirect_stderr(stderr):
                 with self.assertRaises(SystemExit) as error:
                     main()

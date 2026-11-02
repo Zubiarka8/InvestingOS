@@ -4,12 +4,12 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import add_claim, add_edge, add_node, create_project
+from investingos.core import add_claim, add_edge, add_node, create_project
 
 
 class KnowledgeToolsTests(unittest.TestCase):
     def test_import_registers_source_and_preserves_original(self):
-        from InvestingOS.knowledge_tools import import_document
+        from investingos.knowledge_tools import import_document
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             original = root / 'source.txt'
@@ -23,7 +23,7 @@ class KnowledgeToolsTests(unittest.TestCase):
             self.assertEqual(len(source['sha256']), 64)
 
     def test_search_and_research_report(self):
-        from InvestingOS.knowledge_tools import search_project, research_report
+        from investingos.knowledge_tools import search_project, research_report
         project = create_project('History')
         first = add_node(project, 'Rome')
         second = add_node(project, 'Empire')
@@ -35,8 +35,8 @@ class KnowledgeToolsTests(unittest.TestCase):
         self.assertEqual(len(report['contradictory_edges']), 1)
 
     def test_full_backup_restore_and_reject_collision(self):
-        from InvestingOS.backup import backup_bundle, restore_bundle
-        from InvestingOS.storage import save
+        from investingos.backup import backup_bundle, restore_bundle
+        from investingos.storage import save
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project = root / 'project.json'
@@ -75,7 +75,7 @@ class BackupSafetyTests(unittest.TestCase):
     def test_rejects_traversal_without_creating_destination(self):
         import json
         import zipfile
-        from InvestingOS.backup import restore_bundle
+        from investingos.backup import restore_bundle
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             archive = root / 'malicious.zip'

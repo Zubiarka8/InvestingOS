@@ -6,9 +6,9 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from InvestingOS.core import add_edge, add_node, add_view, audit, create_project
-from InvestingOS.export import export
-from InvestingOS.storage import load, save
+from investingos.core import add_edge, add_node, add_view, audit, create_project
+from investingos.export import export
+from investingos.storage import load, save
 
 
 class InvestingOSTests(unittest.TestCase):

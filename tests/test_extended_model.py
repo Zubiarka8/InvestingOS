@@ -2,11 +2,11 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import create_project, add_node, add_source, audit
+from investingos.core import create_project, add_node, add_source, audit
 
 class ExtendedModelTests(unittest.TestCase):
     def test_competency_and_path_validate_references(self):
-        from InvestingOS.competencies import add_competency, add_path
+        from investingos.competencies import add_competency, add_path
         p = create_project('Topic')
         node = add_node(p, 'Theory')
         competency = add_competency(p, 'Explain', node=node['id'], level='beginner', evidence='Demonstrate')
@@ -17,8 +17,8 @@ class ExtendedModelTests(unittest.TestCase):
             add_path(p, 'Invalid', ['missing'])
 
     def test_source_review_due_and_bibtex(self):
-        from InvestingOS.research import schedule_review, export_bibtex
-        from InvestingOS.knowledge_tools import research_report
+        from investingos.research import schedule_review, export_bibtex
+        from investingos.knowledge_tools import research_report
         p = create_project('Topic')
         source = add_source(p, 'Paper', author='Jane Doe')
         schedule_review(p, source['id'], '2026-01-01')
@@ -27,7 +27,7 @@ class ExtendedModelTests(unittest.TestCase):
 
     def test_overwrite_creates_recoverable_previous_version(self):
         import tempfile
-        from InvestingOS.storage import save, load
+        from investingos.storage import save, load
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'project.json'
             project = create_project('Original')
@@ -39,8 +39,8 @@ class ExtendedModelTests(unittest.TestCase):
             self.assertEqual(load(versions[0])['title'], 'Original')
 
     def test_merge_nodes_preserves_alias_and_retargets_relations(self):
-        from InvestingOS.core import add_edge
-        from InvestingOS.dedup import merge_nodes
+        from investingos.core import add_edge
+        from investingos.dedup import merge_nodes
         p = create_project('Topic')
         a = add_node(p, 'Astronomy')
         b = add_node(p, 'Astronomy science')
@@ -53,7 +53,7 @@ class ExtendedModelTests(unittest.TestCase):
 
     def test_rebase_paths_requires_existing_targets(self):
         import tempfile
-        from InvestingOS.knowledge_tools import rebase_paths
+        from investingos.knowledge_tools import rebase_paths
         with tempfile.TemporaryDirectory() as tmp:
             old, new = Path(tmp) / 'old', Path(tmp) / 'new'
             new.mkdir()

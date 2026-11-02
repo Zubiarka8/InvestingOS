@@ -5,11 +5,11 @@ import unittest
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import create_project, add_node
+from investingos.core import create_project, add_node
 
 class PageExportTests(unittest.TestCase):
     def test_current_page_has_export_controls_and_print_styles(self):
-        from InvestingOS.web_viewer import render
+        from investingos.web_viewer import render
         project = create_project('Knowledge')
         html = render(project, query='rome', section='topics')
         self.assertIn('Export PDF', html)
@@ -19,7 +19,7 @@ class PageExportTests(unittest.TestCase):
         self.assertIn('q%3Drome', html)
 
     def test_previews_preserve_filtered_content_and_have_format_actions(self):
-        from InvestingOS.web_viewer import render_preview
+        from investingos.web_viewer import render_preview
         project = create_project('Knowledge')
         add_node(project, 'Rome & Empire')
         add_node(project, 'Athens')
@@ -35,7 +35,7 @@ class PageExportTests(unittest.TestCase):
         self.assertIn('Print or save as PDF', render_preview(project, target, 'pdf'))
 
     def test_preview_rejects_invalid_targets_and_formats(self):
-        from InvestingOS.web_viewer import render_preview
+        from investingos.web_viewer import render_preview
         project = create_project('Knowledge')
         for target, format_name in (('/import', 'word'), ('//example.com/', 'pdf'), ('/', 'other')):
             with self.subTest(target=target, format=format_name):
@@ -43,8 +43,8 @@ class PageExportTests(unittest.TestCase):
                     render_preview(project, target, format_name)
 
     def test_word_contains_current_page_content_not_unrelated_nodes(self):
-        from InvestingOS.page_export import word_document
-        from InvestingOS.web_viewer import render
+        from investingos.page_export import word_document
+        from investingos.web_viewer import render
         project = create_project('Knowledge')
         add_node(project, 'Rome & Empire')
         add_node(project, 'Athens')
@@ -56,12 +56,12 @@ class PageExportTests(unittest.TestCase):
             self.assertIn('word/styles.xml', archive.namelist())
 
     def test_import_form_does_not_expose_export_with_token(self):
-        from InvestingOS.web_viewer import render_import
+        from investingos.web_viewer import render_import
         html = render_import(create_project('Knowledge'), 'SECRET')
         self.assertNotIn('Export Word', html)
 
     def test_export_target_must_be_an_existing_local_content_page(self):
-        from InvestingOS.web_viewer import render_page
+        from investingos.web_viewer import render_page
         project = create_project('Knowledge')
         for target in ('https://example.com/', '//example.com/', '/import', '/export/word', '/node/unknown'):
             with self.subTest(target=target):
@@ -70,8 +70,8 @@ class PageExportTests(unittest.TestCase):
 
     def test_word_contains_valid_xml(self):
         import xml.etree.ElementTree as ET
-        from InvestingOS.page_export import word_document
-        from InvestingOS.web_viewer import render
+        from investingos.page_export import word_document
+        from investingos.web_viewer import render
         with zipfile.ZipFile(io.BytesIO(word_document(render(create_project('Example'))))) as archive:
             for name in ('[Content_Types].xml', '_rels/.rels', 'word/document.xml', 'word/styles.xml', 'word/_rels/document.xml.rels'):
                 ET.fromstring(archive.read(name))
@@ -81,14 +81,14 @@ class PageExportTests(unittest.TestCase):
         from types import SimpleNamespace
         from unittest.mock import Mock, patch
         from urllib.parse import urlencode
-        from InvestingOS.storage import save
-        from InvestingOS.web_viewer import create_server
+        from investingos.storage import save
+        from investingos.web_viewer import create_server
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'project.json'
             project = create_project('History')
             add_node(project, 'Rome')
             save(project, path)
-            with patch('InvestingOS.web_viewer.ThreadingHTTPServer', side_effect=lambda addr, handler: handler):
+            with patch('investingos.web_viewer.ThreadingHTTPServer', side_effect=lambda addr, handler: handler):
                 handler_type = create_server(path, 8000)
             handler = object.__new__(handler_type)
             handler.path = '/export/word?' + urlencode({'from': '/?section=topics&q=Rome'})

@@ -8,7 +8,7 @@ from urllib import error
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
-from InvestingOS import open_sources as o  # noqa: E402
+from investingos import open_sources as o  # noqa: E402
 
 
 def reply(data):
@@ -594,7 +594,7 @@ class SafetyTests(unittest.TestCase):
 
 class WiringTests(unittest.TestCase):
     def run_cli(self, *argv):
-        from InvestingOS import cli
+        from investingos import cli
         out, err = io.StringIO(), io.StringIO()
         with patch.object(sys, 'argv', ['InvestingOS', *argv]), patch('sys.stdout', out), patch('sys.stderr', err):
             try:

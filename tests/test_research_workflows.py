@@ -2,11 +2,11 @@ import sys
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import add_claim, add_node, add_source, audit, create_project
+from investingos.core import add_claim, add_node, add_source, audit, create_project
 
 class ResearchWorkflowTests(unittest.TestCase):
     def test_task_and_evidence_have_checked_references(self):
-        from InvestingOS.research import add_task, add_evidence
+        from investingos.research import add_task, add_evidence
         p = create_project('Topic')
         node = add_node(p, 'Area')
         source = add_source(p, 'Source')
@@ -20,7 +20,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertTrue(audit(p))
 
     def test_indented_outline_creates_parent_child_relations(self):
-        from InvestingOS.research import import_outline
+        from investingos.research import import_outline
         p = create_project('Topic')
         import_outline(p, 'A\n  B\n    C\n  D\n')
         self.assertEqual(len(p['nodes']), 4)
@@ -28,7 +28,7 @@ class ResearchWorkflowTests(unittest.TestCase):
         self.assertFalse(audit(p))
 
     def test_outline_bad_indent_does_not_mutate_project(self):
-        from InvestingOS.research import import_outline
+        from investingos.research import import_outline
         p = create_project('Topic')
         with self.assertRaises(ValueError):
             import_outline(p, 'A\n   B\n  C')
@@ -53,7 +53,7 @@ class ResearchWorkflowCLITests(unittest.TestCase):
 class ExtraWorkflowTests(unittest.TestCase):
     def test_search_extracted_documents_and_missing_files(self):
         import tempfile
-        from InvestingOS.knowledge_tools import search_project
+        from investingos.knowledge_tools import search_project
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'extracted.txt'
             path.write_text('Rare discovery', encoding='utf-8')
@@ -66,7 +66,7 @@ class ExtraWorkflowTests(unittest.TestCase):
                 search_project(p, 'discovery', documents=True)
 
     def test_export_csl_citation_without_invented_authors(self):
-        from InvestingOS.research import export_csl
+        from investingos.research import export_csl
         p = create_project('Topic')
         source = add_source(p, 'A paper', author='A. Author', url='https://example.org')
         records = export_csl(p)
@@ -76,7 +76,7 @@ class ExtraWorkflowTests(unittest.TestCase):
 
 class ReviewWorkflowTests(unittest.TestCase):
     def test_record_review_and_task_status(self):
-        from InvestingOS.research import add_task, review_source, set_task_status
+        from investingos.research import add_task, review_source, set_task_status
         p = create_project('Topic')
         source = add_source(p, 'Paper')
         task = add_task(p, 'Verify')
@@ -90,7 +90,7 @@ class ReviewWorkflowTests(unittest.TestCase):
 class ComparisonTests(unittest.TestCase):
     def test_compare_reports_changes_by_stable_id(self):
         import copy
-        from InvestingOS.research import compare_projects
+        from investingos.research import compare_projects
         before = create_project('Topic')
         node = add_node(before, 'A')
         after = copy.deepcopy(before)

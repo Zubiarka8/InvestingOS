@@ -5,10 +5,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
-from InvestingOS.core import create_project, add_node, add_claim, add_source
-from InvestingOS.export import export
-from InvestingOS.markdown_import import import_to_markdown
-from InvestingOS.source_links import web_link
+from investingos.core import create_project, add_node, add_claim, add_source
+from investingos.export import export
+from investingos.markdown_import import import_to_markdown
+from investingos.source_links import web_link
 
 
 class SourceLinksTests(unittest.TestCase):

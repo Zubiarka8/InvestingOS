@@ -24,7 +24,7 @@ def reply(data):
 
 class PubMedTests(unittest.TestCase):
     def test_search_returns_leads_in_search_order_without_claiming_verification(self):
-        from InvestingOS.pubmed import search
+        from investingos.pubmed import search
         with patch('urllib.request.urlopen', side_effect=[reply(SEARCH), reply(SUMMARY)]):
             results = search('example', 2)
         self.assertEqual([r['pmid'] for r in results], ['111', '222'])
@@ -38,19 +38,19 @@ class PubMedTests(unittest.TestCase):
         self.assertEqual(results[1]['doi'], '')
 
     def test_no_results_makes_only_one_request(self):
-        from InvestingOS.pubmed import search
+        from investingos.pubmed import search
         with patch('urllib.request.urlopen', side_effect=[reply({'esearchresult': {'idlist': []}})]) as opened:
             self.assertEqual(search('nothing matches'), [])
         self.assertEqual(opened.call_count, 1)
 
     def test_rejects_bad_arguments(self):
-        from InvestingOS.pubmed import search
+        from investingos.pubmed import search
         for query, limit in (('  ', 5), ('ok', 0), ('ok', 101)):
             with self.assertRaises(ValueError):
                 search(query, limit)
 
     def test_api_key_is_optional_and_sent_only_when_set(self):
-        from InvestingOS.pubmed import search
+        from investingos.pubmed import search
         for env, expected in (({}, False), ({'NCBI_API_KEY': 'secret-key', 'NCBI_EMAIL': 'a@example.org'}, True)):
             with patch.dict(os.environ, env, clear=False), \
                     patch('urllib.request.urlopen', side_effect=[reply({'esearchresult': {'idlist': []}})]) as opened:
@@ -64,7 +64,7 @@ class PubMedTests(unittest.TestCase):
             self.assertIn('tool=InvestingOS', url)
 
     def test_errors_do_not_leak_the_key(self):
-        from InvestingOS.pubmed import search
+        from investingos.pubmed import search
         failure = error.HTTPError('https://x/?api_key=secret-key', 429, 'Too Many', {}, None)
         with patch.dict(os.environ, {'NCBI_API_KEY': 'secret-key'}), \
                 patch('urllib.request.urlopen', side_effect=failure):

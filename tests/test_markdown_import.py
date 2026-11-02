@@ -6,11 +6,11 @@ from unittest.mock import patch
 from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import create_project
+from investingos.core import create_project
 
 class MarkdownImportTests(unittest.TestCase):
     def test_csv_to_markdown_registers_source(self):
-        from InvestingOS.markdown_import import import_to_markdown
+        from investingos.markdown_import import import_to_markdown
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source, target = root / 'data.csv', root / 'data.md'
@@ -26,7 +26,7 @@ class MarkdownImportTests(unittest.TestCase):
                 import_to_markdown(project, source, target)
 
     def test_xlsx_sheet_data_to_markdown(self):
-        from InvestingOS.markdown_import import import_to_markdown
+        from investingos.markdown_import import import_to_markdown
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             source, target = root / 'data.xlsx', root / 'data.md'
@@ -54,7 +54,7 @@ class MarkdownImportTests(unittest.TestCase):
 
 class YouTubeImportTests(unittest.TestCase):
     def test_imports_available_captions_and_records_url(self):
-        from InvestingOS.youtube_import import import_youtube
+        from investingos.youtube_import import import_youtube
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / 'video.md'
             project = create_project('Project')
@@ -62,17 +62,17 @@ class YouTubeImportTests(unittest.TestCase):
                 folder = Path(command[command.index('-P') + 1])
                 (folder / 'captions.en.vtt').write_text('WEBVTT\n\n00:00:01.000 --> 00:00:02.000\nHello\n', encoding='utf-8')
                 return SimpleNamespace(returncode=0)
-            with patch('InvestingOS.youtube_import.shutil.which', return_value='yt-dlp'), patch('InvestingOS.youtube_import.subprocess.run', side_effect=run):
+            with patch('investingos.youtube_import.shutil.which', return_value='yt-dlp'), patch('investingos.youtube_import.subprocess.run', side_effect=run):
                 source = import_youtube(project, 'https://youtu.be/example', target)
             self.assertIn('Hello', target.read_text())
             self.assertEqual(source['url'], 'https://youtu.be/example')
             self.assertTrue(Path(source['local_path']).is_file())
 
     def test_no_captions_fails_without_creating_output(self):
-        from InvestingOS.youtube_import import import_youtube
+        from investingos.youtube_import import import_youtube
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / 'video.md'
-            with patch('InvestingOS.youtube_import.shutil.which', return_value='yt-dlp'), patch('InvestingOS.youtube_import.subprocess.run'):
+            with patch('investingos.youtube_import.shutil.which', return_value='yt-dlp'), patch('investingos.youtube_import.subprocess.run'):
                 with self.assertRaises(ValueError):
                     import_youtube(create_project('Project'), 'https://youtu.be/example', target)
             self.assertFalse(target.exists())
@@ -80,7 +80,7 @@ class YouTubeImportTests(unittest.TestCase):
 class WebImportTests(unittest.TestCase):
     def test_web_import_saves_original_and_markdown(self):
         import io
-        from InvestingOS.web_import import import_web
+        from investingos.web_import import import_web
         class Response(io.BytesIO):
             headers = {'Content-Type': 'text/html; charset=utf-8'}
         class Opener:
@@ -90,23 +90,23 @@ class WebImportTests(unittest.TestCase):
             destination = Path(tmp) / 'page.md'
             project = create_project('Project')
             addresses = [(2, 1, 6, '', ('93.184.216.34', 443))]
-            with patch('InvestingOS.web_import.socket.getaddrinfo', return_value=addresses), patch('InvestingOS.web_import._fetch_pinned', return_value=b'<html><body><h1>Example</h1><p>Text</p></body></html>'):
+            with patch('investingos.web_import.socket.getaddrinfo', return_value=addresses), patch('investingos.web_import._fetch_pinned', return_value=b'<html><body><h1>Example</h1><p>Text</p></body></html>'):
                 source = import_web(project, 'https://example.com/page', destination)
             self.assertIn('Example', destination.read_text())
             self.assertTrue(Path(source['local_path']).is_file())
             self.assertEqual(source['url'], 'https://example.com/page')
 
     def test_private_network_is_rejected(self):
-        from InvestingOS.web_import import import_web
+        from investingos.web_import import import_web
         with tempfile.TemporaryDirectory() as tmp:
             addresses = [(2, 1, 6, '', ('127.0.0.1', 443))]
-            with patch('InvestingOS.web_import.socket.getaddrinfo', return_value=addresses):
+            with patch('investingos.web_import.socket.getaddrinfo', return_value=addresses):
                 with self.assertRaises(ValueError):
                     import_web(create_project('Project'), 'https://example.com/', Path(tmp) / 'page.md')
 
     def test_search_youtube_returns_real_video_identifiers(self):
-        from InvestingOS.youtube_import import search_youtube
+        from investingos.youtube_import import search_youtube
         result = SimpleNamespace(stdout='{"id":"abcdefghijk","title":"Example"}\n')
-        with patch('InvestingOS.youtube_import.shutil.which', return_value='yt-dlp'), patch('InvestingOS.youtube_import.subprocess.run', return_value=result):
+        with patch('investingos.youtube_import.shutil.which', return_value='yt-dlp'), patch('investingos.youtube_import.subprocess.run', return_value=result):
             videos = search_youtube('history')
         self.assertEqual(videos[0]['url'], 'https://www.youtube.com/watch?v=abcdefghijk')

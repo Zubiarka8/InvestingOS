@@ -3,9 +3,9 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from InvestingOS.core import create_project, add_node, add_view
-from InvestingOS.superindex import outline
-from InvestingOS.web_viewer import render
+from investingos.core import create_project, add_node, add_view
+from investingos.superindex import outline
+from investingos.web_viewer import render
 
 
 class SuperindexTests(unittest.TestCase):

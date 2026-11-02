@@ -26,6 +26,6 @@ def main(kind):
 
 def dispatch(command, arguments):
     sys.path.insert(0, str(ROOT / 'src'))
-    from InvestingOS.cli import main as run_cli
+    from investingos.cli import main as run_cli
     sys.argv = [sys.argv[0], command, *arguments]
     run_cli()
