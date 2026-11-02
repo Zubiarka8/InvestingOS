@@ -56,7 +56,7 @@ def install(root, clients=("shared",), names=None):
         link.parent.mkdir(parents=True, exist_ok=True)
         link.symlink_to(os.path.relpath(target, link.parent), target_is_directory=True)
     print(f"Ready: {len(manifest)} skills for {', '.join(clients)} ({len(pending)} links created).")
-    print("Run python scripts/investingos.py --help from this repository (Python 3.10+).")
+    print("Run python scripts/InvestingOS.py --help from this repository (Python 3.10+).")
     print("Restart your AI client and verify discovery; see docs/ai-clients.md.")
 
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     selection.add_argument("--all-skills", action="store_true", help="Install every skill in the manifest.")
     args = parser.parse_args()
     try:
-        install(ROOT, clients=args.client or ("shared",), names=None if args.all_skills else (args.skill or ("investingos",)))
+        install(ROOT, clients=args.client or ("shared",), names=None if args.all_skills else (args.skill or ("InvestingOS",)))
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         print(f"Installation failed: {exc}", file=sys.stderr)
         if os.name == "nt":

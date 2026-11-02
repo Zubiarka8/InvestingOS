@@ -64,10 +64,10 @@ def import_web(project, url, destination):
     try:
         with destination.open('x', encoding='utf-8', newline='\n') as handle:
             handle.write('# Web page\n\nSource: ' + escape(url) + '\n\n' + escape(''.join(parser.parts)) + '\n')
-            handle.write(imported_source_section(url=url))
+            handle.write(imported_source_section(url=url, project=project))
     except Exception:
         original.unlink()
         raise
-    source = add_source(project, 'Web page', url=url, accessed=date.today().isoformat())
+    source = add_source(project, 'Web page', url=url, accessed=date.today().isoformat(), media_type='web')
     source.update(local_path=str(original), extracted_path=str(destination), sha256=_hash(original))
     return source

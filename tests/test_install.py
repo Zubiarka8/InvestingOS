@@ -69,12 +69,12 @@ class SkillSelectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             manifest = {}
-            for name in ('investingos', 'other'):
+            for name in ('InvestingOS', 'other'):
                 directory = root / 'skills' / name
                 directory.mkdir(parents=True)
                 (directory / 'SKILL.md').write_text('example')
                 manifest[name] = f'skills/{name}'
             (root / 'skills/manifest.json').write_text(json.dumps(manifest))
-            installer.install(root, clients=('shared',), names=('investingos',))
-            self.assertTrue((root / '.agents/skills/investingos').is_symlink())
+            installer.install(root, clients=('shared',), names=('InvestingOS',))
+            self.assertTrue((root / '.agents/skills/InvestingOS').is_symlink())
             self.assertFalse((root / '.agents/skills/other').exists())

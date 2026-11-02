@@ -81,6 +81,13 @@ def render(project, query='', section='overview'):
         content += (metrics if section == 'overview' else '')
         card_content = ''.join(cards) if cards else '<p class="empty">No matching topics.</p>'
         content += f'<div class="heading"><h2>Knowledge map</h2><span class="hint">{len(cards)} matching topics</span></div><div class="grid">{card_content}</div>'
+    if section == 'overview':
+        labels = {'goal': 'Goal', 'audience': 'Audience', 'prior_knowledge': 'Prior knowledge',
+                  'scope': 'Scope', 'depth': 'Desired depth', 'constraints': 'Constraints', 'language': 'Language'}
+        profile = project.get('study_profile', {})
+        rows = [_row(labels[key], value) for key, value in profile.items() if value and key in labels]
+        if rows:
+            content += collection('Study profile', rows)
     if section in ('overview', 'views'):
         rows = [_row(v['title'], v['kind'], '/view/' + v['id']) for v in project['views'] if _matches(v, query)]
         content += collection('Indexes and views', rows)
@@ -96,7 +103,8 @@ def render(project, query='', section='overview'):
         if not project['views']:
             content += '<p class="empty">Create a view and add hierarchical relationships to build an index.</p>'
     if section in ('overview', 'sources'):
-        rows = [_row(s['title'], s.get('author', ''), '/source/' + s['id']) for s in sources.values() if _matches(s, query)]
+        rows = [_row(s['title'], ' · '.join(filter(None, (s.get('author', ''), s.get('library_status', 'inbox')))), '/source/' + s['id'])
+                for s in sources.values() if _matches(s, query)]
         content += collection('Sources', rows)
     if section in ('overview', 'claims'):
         rows = [_row(c['text'], c['status']) for c in project.get('claims', []) if _matches(c, query)]
@@ -129,8 +137,10 @@ def render_node(project, node_id):
         if node_id in claim.get('nodes', []):
             citations = ', '.join(_link('/source/' + source_id, sources[source_id]['title']) for source_id in claim['sources'])
             claims.append(_row(claim['text'], claim['status']) + (f'<p class="hint">Sources: {citations}</p>' if citations else ''))
+    notes = _text(node.get('notes', '')).replace('\n', '<br>')
+    study_notes = f'<section class="detail-section"><h2>Study notes</h2><div class="panel">{notes}</div></section>' if notes else ''
     content = f'''<a class="back" href="/?section=topics">← Back to topics</a><div class="crumb">Topic / {_text(node_id[:8])}</div><h1>{_text(node['title'])}</h1><p class="subtitle">{_text(node['description']) or 'No description yet.'}</p>
-<section class="detail-section"><h2>Connections</h2><div class="panel">{''.join(relations) or '<p class="empty">No connections yet.</p>'}</div></section><section class="detail-section"><h2>Claims</h2><div class="panel">{''.join(claims) or '<p class="empty">No claims linked to this topic.</p>'}</div></section>'''
+{study_notes}<section class="detail-section"><h2>Connections</h2><div class="panel">{''.join(relations) or '<p class="empty">No connections yet.</p>'}</div></section><section class="detail-section"><h2>Claims</h2><div class="panel">{''.join(claims) or '<p class="empty">No claims linked to this topic.</p>'}</div></section>'''
     return _layout(project, content, 'topics', export_target='/node/' + node_id)
 
 
@@ -267,7 +277,7 @@ def create_server(project_file, port=8000):
                     body = word_document(render_page(project, target))
                     self.send_response(200)
                     self.send_header('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-                    self.send_header('Content-Disposition', 'attachment; filename="investingos-page.docx"')
+                    self.send_header('Content-Disposition', 'attachment; filename="InvestingOS-page.docx"')
                     self.send_header('Content-Length', str(len(body)))
                     self.send_header('Cache-Control', 'no-store')
                     self.send_header('X-Content-Type-Options', 'nosniff')
@@ -319,7 +329,7 @@ def create_server(project_file, port=8000):
                 if not destination:
                     from pathlib import Path
                     from .import_storage import allocate_import
-                    root = fields.get('storage_root', [''])[0] or str(Path(project_file).resolve().parent / 'investing-os-data' / project['id'] / 'temporary')
+                    root = fields.get('storage_root', [''])[0] or str(Path(project_file).resolve().parent / 'InvestingOS-data' / project['id'] / 'temporary')
                     allocated = allocate_import(root, mode, source, fields.get('category', [''])[0])
                     destination = str(allocated)
 

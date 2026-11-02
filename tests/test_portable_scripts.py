@@ -8,10 +8,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class PortableScriptTests(unittest.TestCase):
     def test_project_entry_points_are_python_only(self):
-        for old in ('install.sh', 'scripts/python.sh', 'scripts/youtube.sh', 'bin/investingos'):
+        for old in ('install.sh', 'scripts/python.sh', 'scripts/youtube.sh', 'bin/InvestingOS'):
             with self.subTest(old=old):
                 self.assertFalse((ROOT / old).exists())
-        for script in ('scripts/install.py', 'scripts/investingos.py', 'scripts/youtube.py'):
+        for script in ('scripts/install.py', 'scripts/InvestingOS.py', 'scripts/youtube.py'):
             with self.subTest(script=script):
                 result = subprocess.run([sys.executable, str(ROOT / script), '--help'], capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stderr)

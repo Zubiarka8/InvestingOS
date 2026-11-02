@@ -9,8 +9,8 @@ InvestingOS helps you organize knowledge about any subject. Build a map of topic
 With Git installed, download the project:
 
 ```text
-git clone https://github.com/Zubiarka8/investingOS.git
-cd investingOS
+git clone https://github.com/Zubiarka8/InvestingOS.git
+cd InvestingOS
 ```
 
 You need **Python 3.10 or later** on macOS, Windows or Linux. Python 3.14 is recommended. The core does not require an online service or additional Python packages.
@@ -28,8 +28,8 @@ On Windows, use `py -3 scripts/install.py`. Windows may require permission to cr
 To create a project and open the local viewer:
 
 ```text
-python scripts/investingos.py create ../my-project.json "My knowledge"
-python scripts/investingos.py web ../my-project.json
+python scripts/InvestingOS.py create ../my-project.json "My knowledge"
+python scripts/InvestingOS.py web ../my-project.json
 ```
 
 Open the local address printed by the command in your browser. On Windows, replace `python` with `py -3`. Keep personal projects and documents outside the repository.
@@ -37,16 +37,45 @@ Open the local address printed by the command in your browser. On Windows, repla
 ## What you can do
 
 - Organize topics into reusable maps and explore them through search and an expandable index.
-- Import outlines and supported documents, web pages and YouTube captions. Some formats require optional tools or internet access.
+- Rename, detach, move and reorder topics inside one hierarchy while preserving topic IDs and other views.
+- Save the study goal, audience, prior knowledge, scope and desired depth; add flexible Markdown study notes to any knowledge node.
+- Batch-import supported local files, track source workflow status and build a private local full-text index. Web pages and YouTube captions require network access and optional tools.
 - Record sources, claims, research tasks, competencies and learning paths; check the structure for common problems.
-- Export notes for Obsidian and preview the current viewer page for Word or PDF. Saving a PDF uses the browser's print dialog.
+- Create source-aware study-note scaffolds and link their claims to source notes; the AI assistant writes the actual synthesis.
+- Export numbered nested hierarchies, linked topic notes and source records to Obsidian-compatible Markdown. Saving changes is a managed one-way update that preserves manual edits.
+- Upgrade older project files with a history snapshot; local writes reject stale copies and overlapping InvestingOS writes.
+- Preview the current viewer page for Word or PDF. Saving a PDF uses the browser's print dialog.
 - Back up projects and inspect earlier versions. Imported files stay on disk until you remove them.
 
 See the [user guide](docs/user-guide.md) for commands, import locations, requirements and limitations. Generated text and linked sources are not automatically verified.
 
+## Templates
+
+Five universal Markdown templates help an AI create a project home, knowledge node, source record, competency and learning path. They include stable-ID and cross-link guidance to help prevent duplicate notes. See the [template guide](skills/InvestingOS/templates/README.md) for when to use each one and how to manage them safely. Templates are optional authoring aids; the JSON project remains the source of truth for graph data.
+
+## Research sources
+
+InvestingOS searches scholarly and scientific sources through their official open interfaces. None needs an API key.
+
+- `search-crossref`: metadata from most publishers.
+- `search-pubmed`: biomedical literature. An optional `NCBI_API_KEY` raises the rate limit.
+- `lookup-ora`: one record of the Oxford Research Archive.
+- `search-source`: 59 more sources. Europe PMC, arXiv, DOAJ, PLOS, INSPIRE-HEP, Zenodo, DataCite, ClinicalTrials.gov, OSF Preprints (PsyArXiv, SocArXiv, EdArXiv and others), ERIC, zbMATH Open, UniProt, PubChem, RCSB PDB, HAL, OpenAIRE, ChEMBL, GBIF, Open Library, Project Gutenberg, EconBiz, NASA NTRS, Harvard Dataverse, the Art Institute of Chicago, Internet Archive, Wikipedia, OEIS, MedlinePlus, Reactome, the NASA Exoplanet Archive, the Federal Register, the Cleveland Museum of Art, the V&A, Wellcome Collection, Gene Ontology, data.europa.eu, Dryad, Figshare, MeSH, Wiktionary, J-STAGE, BioStudies, Wikidata, the Ontology Lookup Service, MyGene.info, iNaturalist, the NASA Image and Video Library, CERN Open Data, ROR, WoRMS, the Paleobiology Database, ChEBI, Wikisource, NSF Awards, CORDIS, data.gov.uk, datos.gob.es, ICD-10-CM and the UN SDG indicators.
+- `lookup-preprint` fetches a bioRxiv or medRxiv preprint by DOI, `worldbank-data`, `imf-data`, `ecb-data` and `usgs-earthquakes` return statistics, `check-retraction` looks for retraction notices about a DOI, and `list-sources` shows everything offline.
+
+```text
+python scripts/InvestingOS.py search-source europepmc "intermittent fasting" --limit 5
+```
+
+Together they cover biomedicine, psychology, social science, education, biochemistry, chemistry, physics, mathematics and economic statistics. Every result is an unverified lead with a `kind` (article, preprint, registry record, protein and so on), so a preprint is not mistaken for a peer-reviewed paper. Chemistry papers, case law, journal articles in the humanities and non-English literature are the main gaps left. The [field map](docs/research-tools.md#coverage-by-field) lists every area with what covers it and what does not. Paid or bot-protected publisher sites (Oxford Academic, Science, The Lancet, Nature, ScienceDirect, IEEE Xplore and JSTOR) are deliberately not integrated. The [research tools guide](docs/research-tools.md) has the commands, the limits of each source, coverage by field and the sites that were ruled out.
+
+## Not a substitute for a professional
+
+InvestingOS organizes knowledge and finds sources. It does not replace a qualified professional of any kind, and neither does an AI assistant that uses it, whether or not that kind of professional is named here. For a decision that affects your health, mental health, legal position, money, safety, work, property or anything else where a qualified person is responsible for the advice, ask that person. Doctors, psychologists, lawyers, financial advisers and engineers are only examples. The studies it finds describe groups of people, can be preprints, registry entries or retracted papers, and may not apply to you. Use them to prepare better questions for the professional, not to replace the conversation. If you or someone else is in danger or in crisis, contact your local emergency services or a crisis line now.
+
 ## AI skills
 
-The main `investingos` skill guides a compatible AI assistant through the project. The repository also contains a catalog of 178 skills, including Humanizer and educational collections. Browse the [skills index](skills/INDEX.md) to see their purposes and groups.
+The main `InvestingOS` skill guides a compatible AI assistant through the project. The repository also contains a catalog of 178 skills, including Humanizer and educational collections. Browse the [skills index](skills/INDEX.md) to see their purposes and groups.
 
 The default installer activates only the main skill. To make the full catalog available in the shared discovery folder, run:
 
@@ -62,8 +91,8 @@ Project links point to local copies; installation does not install external depe
 
 | Skill or collection | Author or upstream | Installed version or revision | License and notes |
 | --- | --- | --- | --- |
-| InvestingOS | InvestingOS contributors | Project version 0.1.0; skill has no separate version | MIT; [skill](skills/investingos/SKILL.md). |
-| Education Agent Skills (165 skills) | [Gareth Manning and contributors](https://github.com/GarethManning/education-agent-skills) | Commit `135d6275e7db0657d70b147f46d3191c5430677d` | CC BY-SA 4.0, shared alike; unmodified skills, with the code that is not clearly licensed removed. See the [notice](skills/collections/education-agent-skills-main/NOTICE-INVESTINGOS.md) and its LICENSE. |
+| InvestingOS | InvestingOS contributors | Project version 0.1.0; skill has no separate version | MIT; [skill](skills/InvestingOS/SKILL.md). |
+| Education Agent Skills (165 skills) | [Gareth Manning and contributors](https://github.com/GarethManning/education-agent-skills) | Commit `135d6275e7db0657d70b147f46d3191c5430677d` | CC BY-SA 4.0, shared alike; unmodified skills, with the code that is not clearly licensed removed. See the [notice](skills/collections/education-agent-skills-main/NOTICE-InvestingOS.md) and its LICENSE. |
 | Course Builder | [klausners and contributors](https://github.com/klausners/course-builder) | Based on commit `09bdafb5f723db71238481d1b157a564a94d131f`; locally modified transcript helper | MIT; companion agents are required and client compatibility is not verified. |
 | Obsidian Skills (6 skills) | [kepano and contributors](https://github.com/kepano/obsidian-skills) | Commit `3ccff5338ea700537839b21900aa5358a0402c98` | MIT; individual skills may require external tools. |
 | Scrapling skill | [Karim Shoair / Scrapling](https://github.com/D4Vinci/Scrapling) | Commit `95cf9019ab5a5d6f3e9654b7ef1c6a26e29dc5c0` | BSD-3-Clause; notice included. Optional dependencies. |

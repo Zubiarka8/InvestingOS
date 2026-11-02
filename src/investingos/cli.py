@@ -6,19 +6,51 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from .core import CLAIM_STATUSES, RELATIONS, add_claim, add_edge, add_node, add_source, add_view, audit, create_project
+from .core import CLAIM_STATUSES, PROFILE_FIELDS, RELATIONS, SOURCE_LIBRARY_STATUSES, add_claim, add_edge, add_node, add_source, add_view, audit, create_project, move_node, remove_edge, rename_node, set_node_notes, set_source_status, set_study_profile
 from .export import export, update_export
 from .storage import load, save
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="investingos")
+    parser = argparse.ArgumentParser(prog="InvestingOS")
     commands = parser.add_subparsers(dest="command", required=True)
     create = commands.add_parser("create")
     create.add_argument("file")
     create.add_argument("title")
     create.add_argument("--description", default="")
     create.add_argument("--outline", help="UTF-8 text file; one topic per nonempty line")
+    for field in PROFILE_FIELDS:
+        create.add_argument("--" + field.replace("_", "-"), default="")
+    profile = commands.add_parser("set-profile", help="Set study goals and learner context")
+    profile.add_argument("file")
+    for field in PROFILE_FIELDS:
+        profile.add_argument("--" + field.replace("_", "-"))
+    note = commands.add_parser("set-note", help="Set Markdown study notes for a knowledge node")
+    note.add_argument("file")
+    note.add_argument("node")
+    note_input = note.add_mutually_exclusive_group(required=True)
+    note_input.add_argument("--text", help="Markdown text to store")
+    note_input.add_argument("--input-file", help="UTF-8 Markdown file to read")
+    note_draft = commands.add_parser("draft-note", help="Create a source-aware Markdown study-note scaffold")
+    note_draft.add_argument("file")
+    note_draft.add_argument("node")
+    note_draft.add_argument("destination_file")
+    rename = commands.add_parser("rename-node", help="Rename a node without changing its stable ID")
+    rename.add_argument("file")
+    rename.add_argument("node")
+    rename.add_argument("title")
+    rename.add_argument("--description")
+    move = commands.add_parser("move-node", help="Move or reorder a node in one hierarchy view")
+    move.add_argument("file")
+    move.add_argument("node")
+    move.add_argument("view")
+    move.add_argument("--parent", help="New parent node; omit to make the node a root")
+    move.add_argument("--position", type=int, help="1-based sibling or root position")
+    unlink = commands.add_parser("remove-edge", help="Remove a relationship without deleting its nodes")
+    unlink.add_argument("file")
+    unlink.add_argument("edge")
+    migrate = commands.add_parser("migrate", help="Upgrade an older project schema and retain a history snapshot")
+    migrate.add_argument("file")
     node = commands.add_parser("add-node")
     node.add_argument("file")
     node.add_argument("title")
@@ -38,8 +70,13 @@ def main():
     source.add_argument("title")
     for option in ("url", "author", "accessed", "locator"):
         source.add_argument("--" + option, default="")
-    for option in ("year", "publisher", "publication-type"):
+    for option in ("year", "publisher", "publication-type", "media-type"):
         source.add_argument("--" + option, default="")
+    source.add_argument("--library-status", choices=sorted(SOURCE_LIBRARY_STATUSES), default="inbox")
+    source_status = commands.add_parser("set-source-status", help="Change a source's library workflow status")
+    source_status.add_argument("file")
+    source_status.add_argument("source")
+    source_status.add_argument("status", choices=sorted(SOURCE_LIBRARY_STATUSES))
     claim = commands.add_parser("add-claim")
     claim.add_argument("file")
     claim.add_argument("text")
@@ -58,6 +95,38 @@ def main():
     search = commands.add_parser("search-crossref", help="Search scholarly metadata online")
     search.add_argument("query")
     search.add_argument("--limit", type=int, default=10)
+    pubmed = commands.add_parser("search-pubmed", help="Search PubMed (NCBI E-utilities) online")
+    pubmed.add_argument("query")
+    pubmed.add_argument("--limit", type=int, default=10)
+    ora = commands.add_parser("lookup-ora", help="Fetch one Oxford Research Archive (ORA) record by UUID or URL")
+    ora.add_argument("reference")
+    from .open_sources import SOURCES as open_sources
+    commands.add_parser("list-sources", help="List the open scholarly sources and what each one covers")
+    source = commands.add_parser("search-source", help="Search one open scholarly or scientific source online")
+    source.add_argument("source", choices=sorted(open_sources))
+    source.add_argument("query")
+    source.add_argument("--limit", type=int, default=10)
+    source.add_argument("--provider", help="osf only: preprint server id such as psyarxiv or socarxiv")
+    source.add_argument("--preprints", action="store_true", help="europepmc only: preprints only")
+    preprint = commands.add_parser("lookup-preprint", help="Fetch one bioRxiv or medRxiv preprint by DOI")
+    preprint.add_argument("doi")
+    preprint.add_argument("--server", choices=("biorxiv", "medrxiv"), default="biorxiv")
+    bank = commands.add_parser("worldbank-data", help="Fetch annual values of a World Bank indicator for a country")
+    bank.add_argument("country")
+    bank.add_argument("indicator")
+    bank.add_argument("--limit", type=int, default=10)
+    fund = commands.add_parser("imf-data", help="Fetch annual values of an IMF DataMapper indicator for a country")
+    fund.add_argument("country")
+    fund.add_argument("indicator")
+    fund.add_argument("--limit", type=int, default=10)
+    bce = commands.add_parser("ecb-data", help="Fetch the latest observations of a European Central Bank series")
+    bce.add_argument("series", help="dataflow/key, for example EXR/D.USD.EUR.SP00.A")
+    bce.add_argument("--limit", type=int, default=10)
+    quakes = commands.add_parser("usgs-earthquakes", help="List recent earthquakes above a magnitude from the USGS catalogue")
+    quakes.add_argument("--min-magnitude", type=float, default=6.0)
+    quakes.add_argument("--limit", type=int, default=10)
+    retraction = commands.add_parser("check-retraction", help="Look for retraction or correction notices for one DOI")
+    retraction.add_argument("doi")
     extract = commands.add_parser("extract", help="Extract text from a local document")
     extract.add_argument("source_file")
     extract.add_argument("destination_file")
@@ -77,6 +146,17 @@ def main():
     importer.add_argument("file")
     importer.add_argument("source_file")
     importer.add_argument("destination_file")
+    folder_import = commands.add_parser("import-folder", help="Batch-import supported files from a source folder")
+    folder_import.add_argument("file")
+    folder_import.add_argument("source_directory")
+    folder_import.add_argument("output_directory")
+    index_docs = commands.add_parser("index-documents", help="Build or refresh the local full-text document index")
+    index_docs.add_argument("file")
+    index_docs.add_argument("--rebuild", action="store_true")
+    search_docs = commands.add_parser("search-documents", help="Search indexed extracted documents")
+    search_docs.add_argument("file")
+    search_docs.add_argument("query")
+    search_docs.add_argument("--limit", type=int, default=20)
     markdown = commands.add_parser("import-markdown", help="Convert a local document and register its source")
     markdown.add_argument("file")
     markdown.add_argument("source_file")
@@ -208,6 +288,47 @@ def main():
             from .crossref import search
             print(json.dumps(search(args.query, args.limit), ensure_ascii=False, indent=2))
             return
+        if args.command in {"list-sources", "search-source", "lookup-preprint", "worldbank-data", "imf-data", "ecb-data", "usgs-earthquakes", "check-retraction"}:
+            import json
+            from . import open_sources as sources
+            if args.command == "list-sources":
+                output = [{"id": key, "name": item["name"], "field": item["field"], "about": item["about"],
+                           "api_key": "not needed"} for key, item in sorted(sources.SOURCES.items())]
+            elif args.command == "search-source":
+                options = {}
+                if args.provider is not None:
+                    if args.source != "osf":
+                        raise ValueError("--provider only applies to the osf source")
+                    options["provider"] = args.provider
+                if args.preprints:
+                    if args.source != "europepmc":
+                        raise ValueError("--preprints only applies to the europepmc source")
+                    options["preprints"] = True
+                output = sources.SOURCES[args.source]["func"](args.query, args.limit, **options)
+            elif args.command == "lookup-preprint":
+                output = sources.preprint(args.doi, args.server)
+            elif args.command == "check-retraction":
+                output = sources.retractions(args.doi)
+            elif args.command == "usgs-earthquakes":
+                output = sources.earthquakes(args.min_magnitude, args.limit)
+            elif args.command == "ecb-data":
+                output = sources.ecb(args.series, args.limit)
+            elif args.command == "imf-data":
+                output = sources.imf(args.country, args.indicator, args.limit)
+            else:
+                output = sources.worldbank(args.country, args.indicator, args.limit)
+            print(json.dumps(output, ensure_ascii=False, indent=2))
+            return
+        if args.command == "lookup-ora":
+            import json
+            from .ora import lookup
+            print(json.dumps(lookup(args.reference), ensure_ascii=False, indent=2))
+            return
+        if args.command == "search-pubmed":
+            import json
+            from .pubmed import search
+            print(json.dumps(search(args.query, args.limit), ensure_ascii=False, indent=2))
+            return
         if args.command == "doctor":
             print(f"Python {sys.version.split()[0]}: {'OK' if sys.version_info >= (3, 10) else 'requires 3.10+'}")
             for tool in ("git", "yt-dlp", "ffmpeg", "codex", "claude", "obsidian-mcp"):
@@ -218,7 +339,8 @@ def main():
             print(args.destination_file)
             return
         if args.command == "create":
-            project = create_project(args.title, args.description)
+            project = create_project(args.title, args.description,
+                                     study_profile={field: getattr(args, field) for field in PROFILE_FIELDS if getattr(args, field)})
             if args.outline:
                 for line in Path(args.outline).read_text(encoding="utf-8").splitlines():
                     if line.strip():
@@ -227,7 +349,62 @@ def main():
             print(project["id"])
             return
         project = load(args.file)
-        if args.command == "rebase-paths":
+        if args.command == "draft-note":
+            from .study_notes import draft_note
+            with open(args.destination_file, "x", encoding="utf-8", newline="\n") as handle:
+                handle.write(draft_note(project, args.node))
+            print(args.destination_file)
+        elif args.command == "migrate":
+            if getattr(project, "migrated_from", None) is None:
+                print(f"Project already uses schema version {project['schema_version']}")
+            else:
+                old_version = project.migrated_from
+                save(project, args.file, overwrite=True)
+                print(f"Migrated schema version {old_version} to {project['schema_version']}")
+        elif args.command == "import-folder":
+            import json
+            from .source_library import import_folder
+            result = import_folder(project, args.source_directory, args.output_directory)
+            if result["imported"]:
+                save(project, args.file, overwrite=True)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        elif args.command == "index-documents":
+            import json
+            from .document_index import index_documents
+            print(json.dumps(index_documents(args.file, project, rebuild=args.rebuild), ensure_ascii=False, indent=2))
+        elif args.command == "search-documents":
+            import json
+            from .document_index import search_documents
+            print(json.dumps(search_documents(args.file, project, args.query, limit=args.limit), ensure_ascii=False, indent=2))
+        elif args.command == "set-profile":
+            values = {field: getattr(args, field) for field in PROFILE_FIELDS if getattr(args, field) is not None}
+            if not values:
+                raise ValueError("provide at least one study profile field")
+            set_study_profile(project, **values)
+            save(project, args.file, overwrite=True)
+            print("Study profile updated")
+        elif args.command == "set-note":
+            notes = Path(args.input_file).read_text(encoding="utf-8") if args.input_file else args.text
+            result = set_node_notes(project, args.node, notes)
+            save(project, args.file, overwrite=True)
+            print(result["id"])
+        elif args.command == "rename-node":
+            result = rename_node(project, args.node, args.title, args.description)
+            save(project, args.file, overwrite=True)
+            print(result["id"])
+        elif args.command == "move-node":
+            result = move_node(project, args.node, args.view, parent_id=args.parent, position=args.position)
+            save(project, args.file, overwrite=True)
+            print(result["id"] if result else "Node moved to hierarchy root")
+        elif args.command == "remove-edge":
+            result = remove_edge(project, args.edge)
+            save(project, args.file, overwrite=True)
+            print(result["id"])
+        elif args.command == "set-source-status":
+            result = set_source_status(project, args.source, args.status)
+            save(project, args.file, overwrite=True)
+            print(result["id"])
+        elif args.command == "rebase-paths":
             from .knowledge_tools import rebase_paths
             count = rebase_paths(project, args.old_root, args.new_root)
             save(project, args.file, overwrite=True)
@@ -321,8 +498,10 @@ def main():
             elif args.command == "add-view":
                 result = add_view(project, args.title, args.kind)
             elif args.command == "add-source":
-                result = add_source(project, args.title, url=args.url, author=args.author, accessed=args.accessed, locator=args.locator)
-                result.update(year=args.year, publisher=args.publisher, publication_type=args.publication_type)
+                result = add_source(project, args.title, url=args.url, author=args.author, accessed=args.accessed,
+                                    locator=args.locator, media_type=args.media_type)
+                result.update(year=args.year, publisher=args.publisher, publication_type=args.publication_type,
+                              library_status=args.library_status)
             elif args.command == "add-claim":
                 result = add_claim(project, args.text, sources=args.source, nodes=args.node, status=args.status)
             else:

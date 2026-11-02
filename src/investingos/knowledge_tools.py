@@ -21,7 +21,7 @@ def import_document(project, original, extracted):
     if _hash(original) != digest:
         extracted.unlink()
         raise ValueError('original changed during import')
-    source = add_source(project, original.name)
+    source = add_source(project, original.name, media_type=original.suffix.lower().lstrip('.'))
     source.update(local_path=str(original), extracted_path=str(extracted), sha256=digest)
     return source
 

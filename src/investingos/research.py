@@ -48,12 +48,16 @@ def import_outline(project, text):
         existing.add(title.casefold())
     view = add_view(work, 'Imported outline')
     parents = []
+    root_order = []
     for depth, title in lines:
         node = add_node(work, title)
         parents = parents[:depth]
         if depth:
             add_edge(work, parents[-1], node['id'], 'contains', view['id'])
+        else:
+            root_order.append(node['id'])
         parents.append(node['id'])
+    view['root_order'] = root_order
     project.clear()
     project.update(work)
     return view
@@ -108,7 +112,7 @@ def compare_projects(before, after):
     old, new = entries(before), entries(after)
     return {'added': sorted(new.keys() - old.keys()), 'removed': sorted(old.keys() - new.keys()),
             'changed': sorted(key for key in old.keys() & new.keys() if old[key] != new[key]),
-            'project_metadata_changed': any(before.get(key) != after.get(key) for key in ('title', 'description'))}
+            'project_metadata_changed': any(before.get(key) != after.get(key) for key in ('title', 'description', 'study_profile'))}
 
 
 def schedule_review(project, source_id, date):

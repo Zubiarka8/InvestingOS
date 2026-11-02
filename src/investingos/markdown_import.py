@@ -83,7 +83,7 @@ def import_to_markdown(project, original, destination):
         raise ValueError('original changed during import')
     with destination.open('x', encoding='utf-8', newline='\n') as handle:
         handle.write(content)
-        handle.write(imported_source_section(source=original, destination=destination))
-    source = add_source(project, original.name)
+        handle.write(imported_source_section(source=original, destination=destination, project=project))
+    source = add_source(project, original.name, media_type=original.suffix.lower().lstrip('.'))
     source.update(local_path=str(original), extracted_path=str(destination), sha256=before)
     return source

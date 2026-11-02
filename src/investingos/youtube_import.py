@@ -39,11 +39,11 @@ def import_youtube(project, url, destination):
         with destination.open('x', encoding='utf-8', newline='\n') as handle:
             handle.write('# YouTube captions\n\nSource: ' + escape(url) + '\n\nCaptions may be automatically generated; verify against the video.\n\n')
             handle.write('```vtt\n' + raw.replace('```', '` ` `') + '\n```\n')
-            handle.write(imported_source_section(url=url))
+            handle.write(imported_source_section(url=url, project=project))
     except Exception:
         captions.unlink()
         raise
-    source = add_source(project, 'YouTube captions', url=url)
+    source = add_source(project, 'YouTube captions', url=url, media_type='youtube')
     source.update(local_path=str(captions), extracted_path=str(destination), sha256=_hash(captions))
     return source
 

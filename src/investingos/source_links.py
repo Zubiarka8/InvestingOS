@@ -19,8 +19,14 @@ def local_link(source, destination):
         return Path(source).resolve().as_uri()
 
 
-def imported_source_section(*, url=None, source=None, destination=None):
+def imported_source_section(*, url=None, source=None, destination=None, project=None):
     target = web_link(url) if url else local_link(source, destination)
     if not target:
         raise ValueError('invalid source URL')
-    return '\n\n## Sources\n\n- [Original source](' + target + ')\n\nSource content is not automatically verified.\n'
+    lines = ['', '## Sources', '', '- [Original source](' + target + ')', '',
+             'Source content is not automatically verified.']
+    if project:
+        title = str(project.get('title', '')).replace('\r', ' ').replace('\n', ' ')
+        lines.extend(['', '## InvestingOS project', '', '- Name: ' + title,
+                      '- Project ID: `' + str(project.get('id', '')) + '`'])
+    return '\n'.join(lines) + '\n'

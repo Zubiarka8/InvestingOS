@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://investing-os.local/schemas/project-v1.json",
+  "$id": "https://InvestingOS.local/schemas/project-v1.json",
   "title": "InvestingOS project v1",
   "type": "object",
   "required": [

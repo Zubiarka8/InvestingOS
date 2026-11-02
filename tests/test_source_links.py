@@ -5,10 +5,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
-from investingos.core import create_project, add_node, add_claim, add_source
-from investingos.export import export
-from investingos.markdown_import import import_to_markdown
-from investingos.source_links import web_link
+from InvestingOS.core import create_project, add_node, add_claim, add_source
+from InvestingOS.export import export
+from InvestingOS.markdown_import import import_to_markdown
+from InvestingOS.source_links import web_link
 
 
 class SourceLinksTests(unittest.TestCase):
@@ -37,7 +37,8 @@ class SourceLinksTests(unittest.TestCase):
             export(project, out)
             self.assertIn('[Reference](https://example.org/source)', (out / (node['id'] + '.md')).read_text())
             self.assertIn('No sources are linked', (out / (no_source['id'] + '.md')).read_text())
-            self.assertIn('[Reference](https://example.org/source)', (out / 'index.md').read_text())
+            self.assertIn('[[sources|Browse the source library]]', (out / 'index.md').read_text())
+            self.assertIn('[[' + source['id'] + '|Reference]]', (out / 'sources.md').read_text())
 
     def test_disallows_unsafe_link_schemes(self):
         self.assertIsNone(web_link('javascript:alert(1)'))

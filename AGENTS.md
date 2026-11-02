@@ -8,7 +8,7 @@
 - Do not present generated content as verified evidence or invent references.
 - Preserve originals and private data; avoid silent overwrites and never publish data without authorization.
 - Maintain stable IDs and versioned formats, and keep changes small with proportionate tests.
-- Consult the shared skill at `skills/investingos/SKILL.md` for knowledge workflows.
+- Consult the shared skill at `skills/InvestingOS/SKILL.md` for knowledge workflows.
 - Use `skills/INDEX.md` to find bundled skills by purpose and group; read a selected skill's `SKILL.md` before using it. Select only skills relevant to the task and respect their dependencies, permissions, and client limitations.
 - Keep skill sources in `skills/` and third-party collections under `skills/collections/`; `skills/manifest.json` maps installable names to source directories. Client discovery directories are adapters, not separate sources. Do not move or duplicate upstream skills merely to change their grouping.
 - When adding, updating, or removing a skill, maintain its index entry, group, purpose, source path, manifest entry, attribution, version and license information as applicable; verify links and avoid claiming untested compatibility.

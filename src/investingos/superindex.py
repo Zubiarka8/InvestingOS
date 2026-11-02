@@ -16,12 +16,17 @@ def outline(project, view_id, root=None):
         if child not in children.setdefault(parent, []):
             children[parent].append(child)
             incoming.add(child)
+    view = next(item for item in project['views'] if item['id'] == view_id)
     if root is not None:
         if root not in nodes:
             raise ValueError('unknown root')
         roots = [root]
     else:
-        roots = [node for node in children if node not in incoming]
+        ordered_roots = [node for node in view.get('root_order', []) if node not in incoming]
+        roots = list(ordered_roots)
+        roots.extend(node for node in children if node not in incoming and node not in set(roots))
+        priority = {node: index for index, node in enumerate(view.get('root_order', []))}
+        roots.sort(key=lambda node: (node not in priority, priority.get(node, len(priority))))
     result, active, visited = [], set(), set()
     stack = [('enter', node, (index,)) for index, node in reversed(list(enumerate(roots, 1)))]
     while stack:

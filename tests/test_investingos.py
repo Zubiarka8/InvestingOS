@@ -6,9 +6,9 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from investingos.core import add_edge, add_node, add_view, audit, create_project
-from investingos.export import export
-from investingos.storage import load, save
+from InvestingOS.core import add_edge, add_node, add_view, audit, create_project
+from InvestingOS.export import export
+from InvestingOS.storage import load, save
 
 
 class InvestingOSTests(unittest.TestCase):
@@ -61,8 +61,8 @@ class InvestingOSTests(unittest.TestCase):
 
     def test_shared_skill(self):
         root = Path(__file__).resolve().parents[1]
-        source = (root / "skills/investingos/SKILL.md").resolve()
-        self.assertTrue(source.read_text().startswith("---\nname: investingos\n"))
+        source = (root / "skills/InvestingOS/SKILL.md").resolve()
+        self.assertTrue(source.read_text().startswith("---\nname: InvestingOS\n"))
 
 
 if __name__ == "__main__":

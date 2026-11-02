@@ -12,7 +12,7 @@ class ImportScriptTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project, source, dest = root / 'project.json', root / 'table.csv', root / 'table.md'
-            subprocess.run([sys.executable, str(ROOT / 'scripts/investingos.py'), 'create', str(project), 'Topic'], check=True, capture_output=True)
+            subprocess.run([sys.executable, str(ROOT / 'scripts/InvestingOS.py'), 'create', str(project), 'Topic'], check=True, capture_output=True)
             source.write_text('Name,Value\nA,1\n', encoding='utf-8')
             result = subprocess.run([sys.executable, str(ROOT / 'scripts/import_csv.py'), str(project), str(source), str(dest)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
@@ -48,17 +48,17 @@ class ImportScriptTests(unittest.TestCase):
         from contextlib import redirect_stderr
         from unittest.mock import patch
         sys.path.insert(0, str(ROOT / 'src'))
-        from investingos.cli import main
-        from investingos.core import create_project
-        from investingos.storage import save
+        from InvestingOS.cli import main
+        from InvestingOS.core import create_project
+        from InvestingOS.storage import save
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project, source, dest = root / 'project.json', root / 'bad.xlsx', root / 'out.md'
             save(create_project('Topic'), project)
             source.write_bytes(b'not an archive')
             stderr = io.StringIO()
-            with patch('sys.argv', ['investingos', 'import-markdown', str(project), str(source), str(dest)]), \
-                 patch('investingos.markdown_import.convert', side_effect=zipfile.BadZipFile('invalid archive')), \
+            with patch('sys.argv', ['InvestingOS', 'import-markdown', str(project), str(source), str(dest)]), \
+                 patch('InvestingOS.markdown_import.convert', side_effect=zipfile.BadZipFile('invalid archive')), \
                  redirect_stderr(stderr):
                 with self.assertRaises(SystemExit) as error:
                     main()

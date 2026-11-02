@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-RUNNER = ROOT / 'scripts/investingos.py'
+RUNNER = ROOT / 'scripts/InvestingOS.py'
 
 
 class UtilityTests(unittest.TestCase):

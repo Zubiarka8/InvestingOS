@@ -9,7 +9,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
 
 class MediaImportTests(unittest.TestCase):
     def test_text_import_preserves_original_and_refuses_overwrite(self):
-        from investingos.documents import extract_text
+        from InvestingOS.documents import extract_text
         with tempfile.TemporaryDirectory() as tmp:
             original = Path(tmp) / 'original.txt'
             destination = Path(tmp) / 'extracted.txt'
@@ -21,7 +21,7 @@ class MediaImportTests(unittest.TestCase):
                 extract_text(original, destination)
 
     def test_pdf_extraction_marks_pages(self):
-        from investingos.documents import extract_text
+        from InvestingOS.documents import extract_text
         from types import SimpleNamespace
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'doc.pdf', Path(tmp) / 'out.txt'
@@ -33,7 +33,7 @@ class MediaImportTests(unittest.TestCase):
             self.assertIn('Second', output.read_text(encoding='utf-8'))
 
     def test_transcription_creates_new_file_with_timestamps(self):
-        from investingos.documents import transcribe
+        from InvestingOS.documents import transcribe
         from types import SimpleNamespace
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'audio.wav', Path(tmp) / 'out.txt'
@@ -52,7 +52,7 @@ class MediaCLITests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             source, dest = Path(tmp) / 'in.txt', Path(tmp) / 'out.txt'
             source.write_text('Hello', encoding='utf-8')
-            runner = Path(__file__).resolve().parents[1] / 'scripts/investingos.py'
+            runner = Path(__file__).resolve().parents[1] / 'scripts/InvestingOS.py'
             result = subprocess.run([sys.executable, str(runner), 'extract', str(source), str(dest)], capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(dest.read_text(encoding='utf-8'), 'Hello')
@@ -60,7 +60,7 @@ class MediaCLITests(unittest.TestCase):
 class PDFOCRTests(unittest.TestCase):
     def test_scanned_pdf_runs_ocr_page_by_page(self):
         from types import SimpleNamespace
-        from investingos.documents import extract_text
+        from InvestingOS.documents import extract_text
         with tempfile.TemporaryDirectory() as tmp:
             source, output = Path(tmp) / 'scan.pdf', Path(tmp) / 'ocr.txt'
             source.write_bytes(b'%PDF')
@@ -69,6 +69,6 @@ class PDFOCRTests(unittest.TestCase):
                     Path(command[-1] + '-1.png').write_bytes(b'page')
                     return SimpleNamespace(stdout='')
                 return SimpleNamespace(stdout='Recognized text')
-            with patch('investingos.documents.subprocess.run', side_effect=run):
+            with patch('InvestingOS.documents.subprocess.run', side_effect=run):
                 extract_text(source, output, ocr=True)
             self.assertIn('Recognized text', output.read_text(encoding='utf-8'))

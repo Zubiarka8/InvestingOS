@@ -4,12 +4,12 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from investingos.core import add_claim, add_edge, add_node, create_project
+from InvestingOS.core import add_claim, add_edge, add_node, create_project
 
 
 class KnowledgeToolsTests(unittest.TestCase):
     def test_import_registers_source_and_preserves_original(self):
-        from investingos.knowledge_tools import import_document
+        from InvestingOS.knowledge_tools import import_document
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             original = root / 'source.txt'
@@ -23,7 +23,7 @@ class KnowledgeToolsTests(unittest.TestCase):
             self.assertEqual(len(source['sha256']), 64)
 
     def test_search_and_research_report(self):
-        from investingos.knowledge_tools import search_project, research_report
+        from InvestingOS.knowledge_tools import search_project, research_report
         project = create_project('History')
         first = add_node(project, 'Rome')
         second = add_node(project, 'Empire')
@@ -35,8 +35,8 @@ class KnowledgeToolsTests(unittest.TestCase):
         self.assertEqual(len(report['contradictory_edges']), 1)
 
     def test_full_backup_restore_and_reject_collision(self):
-        from investingos.backup import backup_bundle, restore_bundle
-        from investingos.storage import save
+        from InvestingOS.backup import backup_bundle, restore_bundle
+        from InvestingOS.storage import save
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project = root / 'project.json'
@@ -56,7 +56,7 @@ class KnowledgeCLITests(unittest.TestCase):
     def test_import_search_report_and_backup_commands(self):
         import json
         import subprocess
-        runner = Path(__file__).resolve().parents[1] / 'scripts/investingos.py'
+        runner = Path(__file__).resolve().parents[1] / 'scripts/InvestingOS.py'
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             project, source, extracted, archive = (root / name for name in ('project.json', 'source.txt', 'out.txt', 'backup.zip'))
@@ -75,7 +75,7 @@ class BackupSafetyTests(unittest.TestCase):
     def test_rejects_traversal_without_creating_destination(self):
         import json
         import zipfile
-        from investingos.backup import restore_bundle
+        from InvestingOS.backup import restore_bundle
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             archive = root / 'malicious.zip'

@@ -4,8 +4,8 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'src'))
-from investingos import core
-from investingos.storage import load, save
+from InvestingOS import core
+from InvestingOS.storage import load, save
 
 
 class ResearchTests(unittest.TestCase):
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 class ResearchCLITests(unittest.TestCase):
     def test_source_and_claim_cli(self):
         import subprocess
-        runner = Path(__file__).resolve().parents[1] / 'scripts/investingos.py'
+        runner = Path(__file__).resolve().parents[1] / 'scripts/InvestingOS.py'
         with tempfile.TemporaryDirectory() as temp:
             path = str(Path(temp) / 'project.json')
             def run(*args):

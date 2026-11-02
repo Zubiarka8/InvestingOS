@@ -87,7 +87,6 @@
   "interdisciplinary-real-world-connection-mapper": "skills/collections/education-agent-skills-main/skills/environmental-experiential-learning/interdisciplinary-real-world-connection-mapper",
   "interleaving-unit-planner": "skills/collections/education-agent-skills-main/skills/memory-learning-science/interleaving-unit-planner",
   "investigate-first": "skills/investigate-first",
-  "investingos": "skills/investingos",
   "json-canvas": "skills/collections/obsidian-skills-main/skills/json-canvas",
   "knap": "skills/collections/obsidian-skills-main/skills/knap",
   "kud-chart-author": "skills/collections/education-agent-skills-main/skills/curriculum-alignment/kud-chart-author",
@@ -176,5 +175,6 @@
   "weekly-agency-review": "skills/collections/education-agent-skills-main/skills/student-learning/weekly-agency-review",
   "wellbeing-learning-connection-mapper": "skills/collections/education-agent-skills-main/skills/wellbeing-motivation-agency/wellbeing-learning-connection-mapper",
   "worked-example-fading-designer": "skills/collections/education-agent-skills-main/skills/memory-learning-science/worked-example-fading-designer",
-  "worked-example-to-problem-solving-transition-designer": "skills/collections/education-agent-skills-main/skills/ai-learning-science/worked-example-to-problem-solving-transition-designer"
+  "worked-example-to-problem-solving-transition-designer": "skills/collections/education-agent-skills-main/skills/ai-learning-science/worked-example-to-problem-solving-transition-designer",
+  "InvestingOS": "skills/InvestingOS"
 }
